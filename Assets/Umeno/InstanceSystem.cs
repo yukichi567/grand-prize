@@ -19,15 +19,4 @@ public class InstanceSystem<T> : MonoBehaviour where T : MonoBehaviour
             return _instance;
         }
     }
-    public void Awake()
-    {
-        if (FindObjectsOfType<T>().Length > 1)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            DontDestroyOnLoad(gameObject);
-        }
-    }
 }
