@@ -1,0 +1,5 @@
+
+interface IJudeSystem
+{
+    void GroundJudge();
+}
