@@ -1,9 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using System.IO;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : InstanceSystem<PlayerController>
@@ -20,10 +15,11 @@ public class PlayerController : InstanceSystem<PlayerController>
     [SerializeField, Tooltip("Groundのレイヤー")] LayerMask _groundLayer;
     Rigidbody2D _rb;
     float _x;
-    float _y;
     bool _isGround;
+    bool _isWallJump;
 
     public bool IsGround { get => _isGround; set => _isGround = value; }
+    public bool IsWallJump { get => _isWallJump; set => _isWallJump = value; }
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();  
@@ -33,15 +29,16 @@ public class PlayerController : InstanceSystem<PlayerController>
     {
         _x = Input.GetAxisRaw("Horizontal");
         //設置判定
-        //if(Input.GetButtonDown("Jump"))
-        //{
-        //    RaycastHit2D hitGround = Physics2D.Raycast(transform.position, Vector2.down, _groundRayRange, (int)_groundLayer);
-        //    Debug.DrawRay(transform.position, Vector2.down * _groundRayRange, Color.red);
-        //    if (hitGround)
-        //    {
-        //        hitGround.collider.gameObject.GetComponent<IJudeSystem>().GroundJudge();
-        //    }
-        //}
+        RaycastHit2D hitGround = Physics2D.Raycast(transform.position, Vector2.down, _groundRayRange, (int)_groundLayer);
+        Debug.DrawRay(transform.position, Vector2.down * _groundRayRange, Color.red);
+        if (hitGround)
+        {
+            hitGround.collider.gameObject.GetComponent<IJudeSystem>().GroundJudge();
+        }
+        else
+        {
+            _isGround = false;
+        }
 
         RaycastHit2D hitWallRight = Physics2D.Raycast(transform.position, Vector2.right, _wallRayRange, _wallLayer);
         Debug.DrawRay(transform.position, Vector2.right * _wallRayRange, Color.blue);
@@ -49,22 +46,32 @@ public class PlayerController : InstanceSystem<PlayerController>
         Debug.DrawRay(transform.position, Vector2.left * _wallRayRange, Color.blue);
         if (hitWallRight)
         {
+            _isGround = false;
             if (Input.GetButtonDown("Jump"))
             {
+                hitWallRight.collider.gameObject.GetComponent<IJudeSystem>().GroundJudge();
                 Debug.Log("HitRight");
-                _rb.velocity = new Vector2(-10f, 2f) * _jumpPower;
-                //_rb.AddForce(new Vector2(-10f, 2f) * _jumpPower, ForceMode2D.Impulse);
+                _rb.velocity = new Vector2(-1, 1).normalized * _jumpPower;
                 FlipX(hitWallRight.normal.x);
             }
         }
         if(hitWallLeft)
         {
-            if(Input.GetButtonDown("Jump"))
+            _isGround = false;
+            if (Input.GetButtonDown("Jump"))
             {
-                Debug.Log("HitLeft");
-                _rb.velocity = new Vector2(10f, 2f) * _jumpPower;
-                //_rb.AddForce(new Vector2(10f, 2f) * _jumpPower, ForceMode2D.Impulse);
-                FlipX(hitWallRight.normal.x);
+                hitWallLeft.collider.gameObject.GetComponent<IJudeSystem>().GroundJudge();
+                _rb.velocity = new Vector2(1, 1).normalized * _jumpPower;
+                FlipX(hitWallLeft.normal.x);
+            }
+        }
+        Debug.Log($"Ground{_isGround}:Wall{_isWallJump}");
+        if(Input.GetButtonDown("Jump"))
+        {
+            if (_isGround)
+            {
+                _isGround = false;
+                _rb.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
             }
         }
     }
@@ -72,20 +79,17 @@ public class PlayerController : InstanceSystem<PlayerController>
     private void FixedUpdate()
     {
         //キャラの左右移動()
-        if (Input.GetButton("Fire3"))
+        if (!_isWallJump)
         {
-            _rb.velocity = new Vector2(_x * _dushSpeed, _rb.velocity.y);
-        }
-        else
-        {
-            _rb.velocity = new Vector2(_x * _defaultSpeed, _rb.velocity.y);
-        }
-        FlipX(_x);
-        //キャラのジャンプ
-        if (_isGround)
-        {
-            _isGround = false;
-            _rb.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
+            if (Input.GetButton("Fire3"))
+            {
+                _rb.velocity = new Vector2(_x * _dushSpeed, _rb.velocity.y);
+            }
+            else
+            {
+                _rb.velocity = new Vector2(_x * _defaultSpeed, _rb.velocity.y);
+            }
+            FlipX(_x);
         }
     }
     //キャラの動き

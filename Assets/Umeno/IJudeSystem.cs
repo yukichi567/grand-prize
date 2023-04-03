@@ -1,4 +1,3 @@
-
 interface IJudeSystem
 {
     void GroundJudge();
