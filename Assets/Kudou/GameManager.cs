@@ -7,7 +7,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     /// <summary>ステージクリアまでにかかった時間用変数</summary>
     float _timer;
     /// <summary>Player強化のためのPoint変数</summary>
-    float _point;
+    int _point;
     /// <summary>各ステージのクリア時間の最小値を保存する用のDictinary</summary>
     Dictionary<StageNumber, float> _gameLowerTime = new Dictionary<StageNumber, float>();
     /// <summary>現在のゲーム状態</summary>
@@ -17,6 +17,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     public StageNumber stageNumber { get { return _stageNumber; } set { _stageNumber = value; } }
     public GameState gameState { get { return _gameState; } set { _gameState = value; } }
     public float Timer { get { return _timer; }}
+    public int Point { get { return _point; }}
     private void Update()
     {
         //ゲーム中だったら

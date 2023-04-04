@@ -7,6 +7,7 @@ public class UIManagerTest : MonoBehaviour
 {
     [SerializeField, Header("時間")] Text _timerText;
     [SerializeField, Header("ハイスコア")] Text _lowTimerText;
+    [SerializeField, Header("ポイントText")] Text _pointText;
     GameManager gameManager;
     // Start is called before the first frame update
     void Start()
@@ -26,5 +27,6 @@ public class UIManagerTest : MonoBehaviour
     void Update()
     {
         _timerText.text = $"{(int)gameManager.Timer}";
+        _pointText.text = $"{gameManager.Point}";
     }
 }
