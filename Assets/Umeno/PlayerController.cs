@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : InstanceSystem<PlayerController>
@@ -13,16 +14,21 @@ public class PlayerController : InstanceSystem<PlayerController>
     [Header("設置判定のRayに関する数値")]
     [SerializeField, Tooltip("設置判定のRayの長さ")] float _groundRayRange;
     [SerializeField, Tooltip("Groundのレイヤー")] LayerMask _groundLayer;
+    [Header("エネミーに関する数値")]
+    [SerializeField, Tooltip("エネミーのレイヤー")] LayerMask _enemyLayer;
+    [SerializeField, Tooltip("ロックオンのカーソル")] GameObject _cursor;
     Rigidbody2D _rb;
+    Vector3 _enemyPosition;
     float _x;
     bool _isGround;
     bool _isWallJump;
+    bool _isEnemyRock;
 
     public bool IsGround { get => _isGround; set => _isGround = value; }
     public bool IsWallJump { get => _isWallJump; set => _isWallJump = value; }
     void Start()
     {
-        _rb = GetComponent<Rigidbody2D>();  
+        _rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
@@ -66,13 +72,22 @@ public class PlayerController : InstanceSystem<PlayerController>
             }
         }
         Debug.Log($"Ground{_isGround}:Wall{_isWallJump}");
-        if(Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump"))
         {
-            if (_isGround)
+            if (_isGround && !_isEnemyRock)
             {
                 _isGround = false;
                 _rb.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
             }
+            else
+            {
+                StartCoroutine(TargetRock(new Vector3(_enemyPosition.x - 0.1f, _enemyPosition.y, 0)));
+            }
+        }
+        if(Input.GetButtonDown("Fire1"))
+        {
+            StartCoroutine(Attack());
+            Debug.Log("攻撃中");
         }
     }
 
@@ -104,5 +119,36 @@ public class PlayerController : InstanceSystem<PlayerController>
         {
             transform.localScale = new Vector2(-1 * Mathf.Abs(transform.localScale.x), transform.localScale.y);
         }
+    }
+    
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if(collision.CompareTag("Enemy"))
+        {
+            _enemyPosition = collision.transform.position;
+            _cursor.transform.position = _enemyPosition;
+            _cursor.SetActive(true);
+            _isEnemyRock = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        _cursor.SetActive(false);
+        _isEnemyRock = false;
+    }
+
+    IEnumerator TargetRock(Vector3 spawnPint)
+    {
+        this.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
+        transform.position = spawnPint;
+        yield return new WaitForSeconds(0.2f);
+        this.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 255);
+    }
+    IEnumerator Attack()
+    {
+        _rb.drag = 100;
+        yield return new WaitForSeconds(1f);
+        _rb.drag = 0;
     }
 }
