@@ -16,6 +16,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     StageNumber _stageNumber = StageNumber.Stage1;
     public StageNumber stageNumber { get { return _stageNumber; } set { _stageNumber = value; } }
     public GameState gameState { get { return _gameState; } set { _gameState = value; } }
+    public float Timer { get { return _timer; }}
     private void Update()
     {
         //ƒQ[ƒ€’†‚¾‚Á‚½‚ç
@@ -62,7 +63,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     {
         if(_gameLowerTime.ContainsKey(_stageNumber))
         {
-            if(_gameLowerTime[_stageNumber] < _timer)
+            if(_gameLowerTime[_stageNumber] > _timer)
             {
                 _gameLowerTime[_stageNumber] = _timer;
             }
@@ -70,6 +71,18 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         else
         {
             _gameLowerTime.Add(_stageNumber, _timer);
+        }
+    }
+
+    public float LowerTimeLoad()
+    {
+        if (_gameLowerTime.ContainsKey(_stageNumber))
+        {
+            return _gameLowerTime[_stageNumber];
+        }
+        else
+        {
+            return 0;
         }
     }
     /// <summary>ƒNƒŠƒA‚ÉTimer‚ğ0‚É‚·‚éŠÖ”</summary>
