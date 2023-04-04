@@ -14,9 +14,11 @@ public class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
     {
         get
         {
+            //読み取りの際、instanceがなかったら
             if(instance == null)
             {
                 Type t = typeof(T);
+                //検索したTのオブジェクト型をキャストしてT型に変換
                 instance = (T)FindObjectOfType(t);
                 if (!instance)
                 {

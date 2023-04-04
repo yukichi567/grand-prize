@@ -75,6 +75,10 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         }
     }
 
+    /// <summary>
+    /// ハイスコア(今プレイしているステージのクリアの最短時間)を返す関数
+    /// </summary>
+    /// <returns>初めてのステージだったら０を返す・二回目以上経験しているステージだったらそのステージのクリアの最短時間をかえす</returns>
     public float LowerTimeLoad()
     {
         if (_gameLowerTime.ContainsKey(_stageNumber))
