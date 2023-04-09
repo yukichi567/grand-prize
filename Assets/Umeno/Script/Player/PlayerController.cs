@@ -1,22 +1,24 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using System.Collections;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : InstanceSystem<PlayerController>
 {
-    [Header("ƒvƒŒƒCƒ„[‚Ì“®‚«‚ÉŠÖ‚·‚é”’l")]
-    [SerializeField, Tooltip("’Êí‚ÌƒXƒs[ƒh")] int _defaultSpeed;
-    [SerializeField, Tooltip("ƒ_ƒbƒVƒ…‚ÌƒXƒs[ƒh")] int _dushSpeed;
-    [SerializeField, Tooltip("ƒWƒƒƒ“ƒv‚Ìƒpƒ[")] float _jumpPower;
-    [Header("•Ç‚É‚ ‚½‚Á‚½‚ÌRay‚ÉŠÖ‚·‚é”’l")]
+    [Header("ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å‹•ãã«é–¢ã™ã‚‹æ•°å€¤")]
+    [SerializeField, Tooltip("é€šå¸¸æ™‚ã®ã‚¹ãƒ”ãƒ¼ãƒ‰")] int _defaultSpeed;
+    [SerializeField, Tooltip("ãƒ€ãƒƒã‚·ãƒ¥æ™‚ã®ã‚¹ãƒ”ãƒ¼ãƒ‰")] int _dushSpeed;
+    [SerializeField, Tooltip("ã‚¸ãƒ£ãƒ³ãƒ—ã®ãƒ‘ãƒ¯ãƒ¼")] float _jumpPower;
+    [Header("å£ã«ã‚ãŸã£ãŸæ™‚ã®Rayã«é–¢ã™ã‚‹æ•°å€¤")]
     [SerializeField] float _wallRayRange;
-    [SerializeField, Tooltip("Ground‚ÌƒŒƒCƒ„[")] LayerMask _wallLayer;
-    [Header("İ’u”»’è‚ÌRay‚ÉŠÖ‚·‚é”’l")]
-    [SerializeField, Tooltip("İ’u”»’è‚ÌRay‚Ì’·‚³")] float _groundRayRange;
-    [SerializeField, Tooltip("Ground‚ÌƒŒƒCƒ„[")] LayerMask _groundLayer;
-    [Header("ƒGƒlƒ~[‚ÉŠÖ‚·‚é”’l")]
-    [SerializeField, Tooltip("ƒGƒlƒ~[‚ÌƒŒƒCƒ„[")] LayerMask _enemyLayer;
-    [SerializeField, Tooltip("ƒƒbƒNƒIƒ“‚ÌƒJ[ƒ\ƒ‹")] GameObject _cursor;
+    [SerializeField, Tooltip("Groundã®ãƒ¬ã‚¤ãƒ¤ãƒ¼")] LayerMask _wallLayer;
+    [Header("è¨­ç½®åˆ¤å®šã®Rayã«é–¢ã™ã‚‹æ•°å€¤")]
+    [SerializeField, Tooltip("è¨­ç½®åˆ¤å®šã®Rayã®é•·ã•")] float _groundRayRange;
+    [SerializeField, Tooltip("Groundã®ãƒ¬ã‚¤ãƒ¤ãƒ¼")] LayerMask _groundLayer;
+    [Header("ã‚¨ãƒãƒŸãƒ¼ã«é–¢ã™ã‚‹æ•°å€¤")]
+    [SerializeField, Tooltip("ã‚¨ãƒãƒŸãƒ¼ã®ãƒ¬ã‚¤ãƒ¤ãƒ¼")] LayerMask _enemyLayer;
+    [SerializeField, Tooltip("ãƒ­ãƒƒã‚¯ã‚ªãƒ³ã®ã‚«ãƒ¼ã‚½ãƒ«")] GameObject _cursor;
+    [Header("ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚¢ã‚¿ãƒƒã‚¯ã«é–¢ã™ã‚‹æ•°å€¤")]
+    [SerializeField, Tooltip("ã‚¢ã‚¿ãƒƒã‚¯ç”¨ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ")] GameObject _attackObject;
     Rigidbody2D _rb;
     Vector3 _enemyPosition;
     float _x;
@@ -34,18 +36,19 @@ public class PlayerController : InstanceSystem<PlayerController>
     void Update()
     {
         _x = Input.GetAxisRaw("Horizontal");
-        //İ’u”»’è
+        //è¨­ç½®åˆ¤å®š
         RaycastHit2D hitGround = Physics2D.Raycast(transform.position, Vector2.down, _groundRayRange, (int)_groundLayer);
         Debug.DrawRay(transform.position, Vector2.down * _groundRayRange, Color.red);
         if (hitGround)
         {
-            hitGround.collider.gameObject.GetComponent<IJudeSystem>().GroundJudge();
+            hitGround.collider.gameObject.GetComponent<IJude>().GroundJudge();
         }
         else
         {
             _isGround = false;
         }
 
+        //å£ã®åˆ¤å®š
         RaycastHit2D hitWallRight = Physics2D.Raycast(transform.position, Vector2.right, _wallRayRange, _wallLayer);
         Debug.DrawRay(transform.position, Vector2.right * _wallRayRange, Color.blue);
         RaycastHit2D hitWallLeft = Physics2D.Raycast(transform.position, Vector2.left, _wallRayRange, _wallLayer);
@@ -55,7 +58,7 @@ public class PlayerController : InstanceSystem<PlayerController>
             _isGround = false;
             if (Input.GetButtonDown("Jump"))
             {
-                hitWallRight.collider.gameObject.GetComponent<IJudeSystem>().GroundJudge();
+                hitWallRight.collider.gameObject.GetComponent<IJude>().GroundJudge();
                 Debug.Log("HitRight");
                 _rb.velocity = new Vector2(-1, 1).normalized * _jumpPower;
                 FlipX(hitWallRight.normal.x);
@@ -66,14 +69,14 @@ public class PlayerController : InstanceSystem<PlayerController>
             _isGround = false;
             if (Input.GetButtonDown("Jump"))
             {
-                hitWallLeft.collider.gameObject.GetComponent<IJudeSystem>().GroundJudge();
+                hitWallLeft.collider.gameObject.GetComponent<IJude>().GroundJudge();
                 _rb.velocity = new Vector2(1, 1).normalized * _jumpPower;
                 FlipX(hitWallLeft.normal.x);
             }
         }
-        Debug.Log($"Ground{_isGround}:Wall{_isWallJump}");
         if (Input.GetButtonDown("Jump"))
         {
+            //è¨­ç½®ã—ã¦ã„ã¦ã‚¨ãƒãƒŸãƒ¼ã‚’ãƒ­ãƒƒã‚¯ã—ã¦ã„ãªã‘ã‚Œã°
             if (_isGround && !_isEnemyRock)
             {
                 _isGround = false;
@@ -81,19 +84,20 @@ public class PlayerController : InstanceSystem<PlayerController>
             }
             else
             {
+                FlipX(1);
                 StartCoroutine(TargetRock(new Vector3(_enemyPosition.x - 0.1f, _enemyPosition.y, 0)));
             }
         }
         if(Input.GetButtonDown("Fire1"))
         {
             StartCoroutine(Attack());
-            Debug.Log("UŒ‚’†");
+            Debug.Log("æ”»æ’ƒä¸­");
         }
     }
 
     private void FixedUpdate()
     {
-        //ƒLƒƒƒ‰‚Ì¶‰EˆÚ“®()
+        //ã‚­ãƒ£ãƒ©ã®å·¦å³ç§»å‹•()
         if (!_isWallJump)
         {
             if (Input.GetButton("Fire3"))
@@ -107,10 +111,10 @@ public class PlayerController : InstanceSystem<PlayerController>
             FlipX(_x);
         }
     }
-    //ƒLƒƒƒ‰‚Ì“®‚«
+    //ã‚­ãƒ£ãƒ©ã®å‹•ã
     void FlipX(float x)
     {
-        //“ü—Í‚µ‚Ä‚¢‚é•ûŒü‚ÉƒLƒƒƒ‰‚ğŒü‚©‚¹‚é
+        //å…¥åŠ›ã—ã¦ã„ã‚‹æ–¹å‘ã«ã‚­ãƒ£ãƒ©ã‚’å‘ã‹ã›ã‚‹
         if(x > 0)
         {
             transform.localScale = new Vector2(Mathf.Abs(transform.localScale.x), transform.localScale.y) ;
@@ -120,7 +124,6 @@ public class PlayerController : InstanceSystem<PlayerController>
             transform.localScale = new Vector2(-1 * Mathf.Abs(transform.localScale.x), transform.localScale.y);
         }
     }
-    
     private void OnTriggerStay2D(Collider2D collision)
     {
         if(collision.CompareTag("Enemy"))
@@ -142,12 +145,16 @@ public class PlayerController : InstanceSystem<PlayerController>
     {
         this.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
         transform.position = spawnPint;
+        //transform.LookAt(_enemyPosition);
         yield return new WaitForSeconds(0.2f);
         this.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 255);
     }
     IEnumerator Attack()
     {
         _rb.drag = 100;
+        _attackObject.SetActive(true);
+        yield return new WaitForSeconds(0.1f);
+        _attackObject.SetActive(false);
         yield return new WaitForSeconds(1f);
         _rb.drag = 0;
     }

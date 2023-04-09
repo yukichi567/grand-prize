@@ -1,6 +1,6 @@
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Wall : MonoBehaviour, IJudeSystem
+public class Wall : MonoBehaviour, IJude
 {
     public void GroundJudge()
     {
