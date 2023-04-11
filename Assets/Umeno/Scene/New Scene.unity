@@ -657,6 +657,7 @@ MonoBehaviour:
   _groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  _enemyRayRange: 0
   _enemyLayer:
     serializedVersion: 2
     m_Bits: 256

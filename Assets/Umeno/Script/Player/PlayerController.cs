@@ -15,6 +15,7 @@ public class PlayerController : InstanceSystem<PlayerController>
     [SerializeField, Tooltip("設置判定のRayの長さ")] float _groundRayRange;
     [SerializeField, Tooltip("Groundのレイヤー")] LayerMask _groundLayer;
     [Header("エネミーに関する数値")]
+    [SerializeField, Tooltip("EnemyまでのRayの長さ")] float _enemyRayRange;
     [SerializeField, Tooltip("エネミーのレイヤー")] LayerMask _enemyLayer;
     [SerializeField, Tooltip("ロックオンのカーソル")] GameObject _cursor;
     [Header("プレイヤーアタックに関する数値")]
@@ -84,8 +85,9 @@ public class PlayerController : InstanceSystem<PlayerController>
             }
             else
             {
-                FlipX(1);
-                StartCoroutine(TargetRock(new Vector3(_enemyPosition.x - 0.1f, _enemyPosition.y, 0)));
+                float rad = Mathf.Atan2(_enemyPosition.y - transform.position.y, _enemyPosition.x - transform.position.y);
+                //StartCoroutine(TargetRock(rad));
+                StartCoroutine(TargetRock(new Vector3(_enemyPosition.x + 1f, _enemyPosition.y, 0)));
             }
         }
         if(Input.GetButtonDown("Fire1"))
@@ -141,21 +143,32 @@ public class PlayerController : InstanceSystem<PlayerController>
         _isEnemyRock = false;
     }
 
-    IEnumerator TargetRock(Vector3 spawnPint)
+    IEnumerator TargetRock(float rad)
     {
         this.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
-        transform.position = spawnPint;
-        //transform.LookAt(_enemyPosition);
+        //float angle = Vector3.Angle(transform.right, _enemyPosition);
+        //transform.rotation = Quaternion.Euler(0f, 0f, angle);
+        _rb.AddForce(new Vector2(Mathf.Cos(rad), Mathf.Sin(rad))* _jumpPower, ForceMode2D.Impulse);
+        yield return new WaitForSeconds(0.2f);
+        transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        this.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 255);
+    }
+
+    IEnumerator TargetRock(Vector3 position)
+    {
+        this.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
+        transform.position = position;
         yield return new WaitForSeconds(0.2f);
         this.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 255);
     }
+
     IEnumerator Attack()
     {
         _rb.drag = 100;
         _attackObject.SetActive(true);
         yield return new WaitForSeconds(0.1f);
         _attackObject.SetActive(false);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         _rb.drag = 0;
     }
 }
