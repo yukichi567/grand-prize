@@ -13,6 +13,8 @@ public class BossMove : MonoBehaviour
     Vector2 _playerPosTmp;
     Vector2 _bosspos;
     float _distance;
+    Vector3 _velocity = Vector3.zero; //jump移動の速度初期化
+    [SerializeField] bool _jumpBool = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -41,7 +43,8 @@ public class BossMove : MonoBehaviour
 
             }
         }
-        Attack();
+        //Attack();
+        Attack1();
     }
     void BossQuaternion()
     {
@@ -73,15 +76,34 @@ public class BossMove : MonoBehaviour
         if (_distance < _stopDistance)
         {
             _rb.velocity = Vector2.zero;
-            Debug.Log("a");
+            Debug.Log("攻撃予定");
         }
     }
     void Attack1()
     {
-
+        if (_arrived)
+        {
+            _bosspos = this.transform.position;
+            Vector2 playerPos = GameObject.Find("Player").transform.position;
+            _playerPosTmp = playerPos;
+            _arrived = false;
+            Debug.Log("呼ばれた");
+        }
+        if(_jumpBool == false)
+        {
+            this.transform.position = Vector3.SmoothDamp(transform.position, new Vector3(_playerPosTmp.x / 2,
+            _playerPosTmp.y + 10, 0f), ref _velocity, 0.5f);
+            StartCoroutine("JumpAttack");
+        }
     }
     void Attack2()
     {
 
+    }
+    IEnumerator JumpAttack()
+    {
+        Debug.Log("呼ばれましたよコルーチン");
+        yield return new WaitForSeconds(2.6f);
+        _jumpBool = true;
     }
 }
