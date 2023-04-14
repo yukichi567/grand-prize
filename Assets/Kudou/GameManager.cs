@@ -14,8 +14,12 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     GameState _gameState = GameState.Game;
     /// <summary>現在プレイしているステージ</summary>
     StageNumber _stageNumber = StageNumber.Stage1;
+    /// <summary>現在プレイしている難易度</summary>
+    StageDifficulty _stageDifficulty = StageDifficulty.Easy;
     public StageNumber stageNumber { get { return _stageNumber; } set { _stageNumber = value; } }
+    public StageDifficulty stageDifficulty { get { return _stageDifficulty; } set { _stageDifficulty = value; } }
     public GameState gameState { get { return _gameState; } set { _gameState = value; } }
+    
     public float Timer { get { return _timer; }}
     public int Point { get { return _point; }}
     private void Update()
@@ -95,9 +99,20 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     {
         _timer = 0;
     }
-
+    public void StageDifficultySelect(int difficultyNumber)
+    {
+        if (difficultyNumber > 2 || difficultyNumber < 0)
+        {
+            Debug.Log("指定された難易度は存在しません０から２の数字を引数に入れてください" +
+                    "Easyは０　Normalは１　Hardは２　です");
+        }
+        else
+        {
+            _stageDifficulty = (StageDifficulty)difficultyNumber;
+        }
+    }
     /// <summary>ステージの難易度管理用のenum</summary>
-    enum StageDifficulty
+    public enum StageDifficulty
     {
         Easy,
         Normal,
