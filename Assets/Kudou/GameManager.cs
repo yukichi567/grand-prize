@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class GameManager : SingletonMonoBehaviour<GameManager>
 {
+    [SerializeField, Header("難易度調整　敵のHPをいくつ上げるか")] int _maxhpUp;
+    [SerializeField, Header("難易度調整　敵の攻撃力をいくつ上げるか")] int _attackPowerUp;
+    EnemyBase[] _enemyBasise;
     /// <summary>ステージクリアまでにかかった時間用変数</summary>
     float _timer;
     /// <summary>Player強化のためのPoint変数</summary>
@@ -139,4 +142,33 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         Stage2,
         Stage3,
     }
+
+    /// <summary>難易度調整</summary>
+    public  void DifficultyAdjustment()
+    {
+        switch (stageDifficulty)
+        {
+            case GameManager.StageDifficulty.Easy:
+                break;
+            case GameManager.StageDifficulty.Normal:
+                EnemyHPAttackPowerUp(1);
+                break;
+            case GameManager.StageDifficulty.Hard:
+                EnemyHPAttackPowerUp(2);
+                break;
+        }
+    }
+
+    /// <summary>Enemyの最大値HPと攻撃力を上げる関数</summary>
+    /// <param name="multiple">倍数(_maxhpメンバー変数に何倍かけてEnemyのHPに足すか)</param>
+    void EnemyHPAttackPowerUp(int multiple)
+    {
+        _enemyBasise = FindObjectsOfType<EnemyBase>();
+        for (var i = 0; i < _enemyBasise.Length; i++)
+        {
+            _enemyBasise[i].MaxHPUP(_maxhpUp * multiple);
+            _enemyBasise[i].AttackPowerUp(_attackPowerUp * multiple);
+        }
+    }
+
 }
