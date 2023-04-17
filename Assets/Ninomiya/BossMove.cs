@@ -5,16 +5,18 @@ using UnityEngine;
 public class BossMove : MonoBehaviour
 {
     Rigidbody2D _rb;
-    [SerializeField] float _limitTime;
-    float _nowTime;
-    [SerializeField]float _moveSpeed;
-    [SerializeField]bool _arrived;
-    [SerializeField] float _stopDistance;
-    Vector2 _playerPosTmp;
-    Vector2 _bosspos;
-    float _distance;
+    [SerializeField] float _limitTime; //ŽŸ‚ÌUŒ‚‚Ü‚Å‚ÌŽžŠÔ
+    float _nowTime;@//ŽŸ‚ÌUŒ‚‚Ü‚Å‚ÌŽžŠÔ
+    [SerializeField]float _moveSpeed; //boss‚ÌˆÚ“®‘¬“x
+    [SerializeField]bool _arrived; //UŒ‚‚ÌÛAˆê‰ñ‚¾‚¯î•ñ‚ðŽæ‚é‚½‚ß‚Ìbool
+    [SerializeField] float _stopDistance; //player‚É‹ß‚Ã‚­‹——£
+    Vector2 _playerPosTmp; //player‚ÌˆÊ’uŽæ“¾
+    Vector2 _bosspos; //boss‚ÌˆÊ’uŽæ“¾
+    float _distance; //boss‚Æplayer‚Ì‹——£
     Vector3 _velocity = Vector3.zero; //jumpˆÚ“®‚Ì‘¬“x‰Šú‰»
     [SerializeField] bool _jumpBool = false;
+    [SerializeField] Transform[] _enemyTransform; //“G‚ðžŠÒ‚·‚éêŠ
+    [SerializeField] GameObject[] _enemys; //“G‚ð“ü‚ê‚é
     // Start is called before the first frame update
     void Start()
     {
@@ -27,24 +29,33 @@ public class BossMove : MonoBehaviour
     {
         BossQuaternion();
         _nowTime += Time.deltaTime;
-        if(_nowTime > _limitTime)
+        if (_nowTime > _limitTime)
         {
-            int numRandam = Random.Range(0,3);
-            if(numRandam == 0)
+            int numRandam = Random.Range(0, 3);
+            //System.Random tmpRandam = new System.Random();
+            //tmpRandam.Next(3);
+            switch(numRandam)
             {
-                
-            }
-            else if(numRandam == 1)
-            {
-                
-            }
-            else
-            {
-
+                case 0:
+                    {
+                        Attack();
+                        _nowTime = 0;
+                        break;
+                    }
+                case 1:
+                    {
+                        Attack1();
+                        _nowTime = 0;
+                        break;
+                    }
+                case 2:
+                    {
+                        Attack2();
+                        _nowTime = 0;
+                        break;
+                    }
             }
         }
-        //Attack();
-        Attack1();
     }
     void BossQuaternion()
     {
@@ -98,12 +109,16 @@ public class BossMove : MonoBehaviour
     }
     void Attack2()
     {
-
+        for(int i = 0; i < _enemyTransform.Length; i++)
+        {
+            int enemyInstanceCount = Random.Range(0,_enemys.Length);
+            Instantiate(_enemys[enemyInstanceCount], _enemyTransform[enemyInstanceCount]);
+        }
     }
     IEnumerator JumpAttack()
     {
         Debug.Log("ŒÄ‚Î‚ê‚Ü‚µ‚½‚æƒRƒ‹[ƒ`ƒ“");
-        yield return new WaitForSeconds(2.6f);
+        yield return new WaitForSeconds(1.5f);
         _jumpBool = true;
     }
 }
