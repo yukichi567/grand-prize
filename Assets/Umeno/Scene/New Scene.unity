@@ -448,7 +448,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 613753111}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.618, y: -3.98, z: -10}
+  m_LocalPosition: {x: 4.335206, y: -3.9669852, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -625,8 +625,8 @@ GameObject:
   - component: {fileID: 832874861}
   - component: {fileID: 832874860}
   - component: {fileID: 832874859}
-  - component: {fileID: 832874858}
   - component: {fileID: 832874864}
+  - component: {fileID: 832874865}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -634,35 +634,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &832874858
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 832874857}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae4a1eea6b9ea70419b9518ac038ce82, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _defaultSpeed: 5
-  _dushSpeed: 10
-  _jumpPower: 10
-  _wallRayRange: 0.5
-  _wallLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  _groundRayRange: 0.5
-  _groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  _enemyRayRange: 0
-  _enemyLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  _cursor: {fileID: 1926150551}
-  _attackObject: {fileID: 1318941774}
 --- !u!50 &832874859
 Rigidbody2D:
   serializedVersion: 4
@@ -780,7 +751,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 832874857}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.13720596, y: -0.91301465, z: 0.12698968}
+  m_LocalPosition: {x: 2.58, y: -0.9, z: 0.12698968}
   m_LocalScale: {x: 2.8208, y: 2.8208, z: 2.8208}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -804,6 +775,27 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.47
+--- !u!114 &832874865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 832874857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6090b1b69f3b43e419be760ede05a7a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _defaultSpeed: 5
+  _dushSpeed: 10
+  _jumpPower: 10
+  _groundRayRange: 0.5
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _cursor: {fileID: 1926150551}
+  _attackObject: {fileID: 1318941774}
 --- !u!1 &835741148
 GameObject:
   m_ObjectHideFlags: 0
@@ -1362,7 +1354,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1267528042}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.6179925, y: -0.043499947, z: -10}
+  m_LocalPosition: {x: 4.3352013, y: -0.043499947, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -4,9 +4,13 @@ public class PlayerAttack : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Enemy"))
-        {
-            //collision.gameObject.GetComponent<EnemyBase>().Damage();
-        }
+        //if(collision.gameObject.GetComponent<EnemyBase>())
+        //{
+        //    //collision.gameObject.GetComponent<EnemyBase>().Damage();
+        //}
+        //if (collision.CompareTag("Enemy"))
+        //{
+        //    //collision.gameObject.GetComponent<EnemyBase>().Damage();
+        //}
     }
 }
