@@ -20,4 +20,12 @@ public class EnemyBase : MonoBehaviour
     {
         _attackPower += powerUpPoint;
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            //Player‚ÌHP[UŒ‚—Í
+        }
+    }
 }

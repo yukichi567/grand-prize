@@ -45,7 +45,6 @@ public class EnemyInTheAir : EnemyBase
 
     }
 
-
     [Flags]
     enum EnemyType
     {
