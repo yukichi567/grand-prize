@@ -17,6 +17,7 @@ public class PlayerController : InstanceSystem<PlayerController>
     [Header("プレイヤーアタックに関する数値")]
     [SerializeField, Tooltip("アタック用のオブジェクト")] GameObject _attackObject;
     Rigidbody2D _rb;
+    Animator _anim;
     float _x;
     bool _isGround;
     bool _isWallJump;
@@ -27,11 +28,13 @@ public class PlayerController : InstanceSystem<PlayerController>
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _anim = GetComponent<Animator>();
     }
 
     void Update()
     {
         _x = Input.GetAxisRaw("Horizontal");
+        _anim.SetFloat("Speed", _rb.velocity.magnitude);
         //接地判定
         RaycastHit2D hitGround = Physics2D.Raycast(transform.position, Vector2.down, _groundRayRange, (int)_groundLayer);
         Debug.DrawRay(transform.position, Vector2.down * _groundRayRange, Color.red);
