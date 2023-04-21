@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EnemyBase : MonoBehaviour
 {
-    [SerializeField, Header("HP最大値")] int _maxHP;
-    [SerializeField, Header("攻撃力")] int _attackPower;
+    [SerializeField, Header("HP最大値")]protected int _maxHP;
+    [SerializeField, Header("攻撃力")]protected int _attackPower;
     
     /// <summary>EnemyのHP最大値を増やす関数</summary>
     /// <param name="upPoint">増やす値</param>
