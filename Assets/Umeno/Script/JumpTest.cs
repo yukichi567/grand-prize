@@ -22,6 +22,7 @@ public class JumpTest : InstanceSystem<PlayerController>
     bool _isGround;
     bool _isWallJump;
     bool _isEnemyRock;
+    bool _isEnemyDush;
 
     public bool IsGround { get => _isGround; set => _isGround = value; }
     public bool IsWallJump { get => _isWallJump; set => _isWallJump = value; }
@@ -53,9 +54,11 @@ public class JumpTest : InstanceSystem<PlayerController>
         {
             if (_isEnemyRock)
             {
-                _rb.velocity = Vector2.zero;
+                _rb.velocity = Vector3.zero;
+                _isEnemyDush = true;
                 var dir = (_enemyPosition - transform.position).normalized;
                 _rb.AddForce(dir * _jumpPower, ForceMode2D.Impulse);
+                _isEnemyDush = false;
             }
             else if (_isGround)
             {
@@ -68,15 +71,18 @@ public class JumpTest : InstanceSystem<PlayerController>
     {
         //キャラの左右移動(壁ジャンプの時は左右移動しない)
         //ダッシュと通常のスピードを変える
-        if (Input.GetButton("Fire3"))
+        if (!_isEnemyDush)
         {
-            _rb.velocity = new Vector2(_x * _dushSpeed, _rb.velocity.y);
+            if (Input.GetButton("Fire3"))
+            {
+                _rb.velocity = new Vector2(_x * _dushSpeed, _rb.velocity.y);
+            }
+            else
+            {
+                _rb.velocity = new Vector2(_x * _defaultSpeed, _rb.velocity.y);
+            }
+            FlipX(_x);
         }
-        else
-        {
-            _rb.velocity = new Vector2(_x * _defaultSpeed, _rb.velocity.y);
-        }
-        FlipX(_x);
     }
     //キャラの向きを変換する
     void FlipX(float x)

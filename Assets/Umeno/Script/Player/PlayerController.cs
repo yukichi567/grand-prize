@@ -24,6 +24,7 @@ public class PlayerController : InstanceSystem<PlayerController>
     bool _isGround;
     bool _isWallJump;
     bool _isEnemyRock;
+    bool _isEnemyDush;
 
     public bool IsGround { get => _isGround; set => _isGround = value; }
     public bool IsWallJump { get => _isWallJump; set => _isWallJump = value; }
@@ -46,6 +47,7 @@ public class PlayerController : InstanceSystem<PlayerController>
             //床オブジェクトにあるJudge関数でboolを変更する(接地判定)
             _isGround = true;
             _isWallJump = false;
+            _isEnemyDush = false;
         }
         else
         {
@@ -66,9 +68,6 @@ public class PlayerController : InstanceSystem<PlayerController>
             {
                 _isWallJump = true;
                 _rb.velocity = new Vector2(-1, 1).normalized * _jumpPower;
-                //var wallJumpVector = hitWallRight.normal;
-                //var wallJumpDirection = Vector3.Cross(wallJumpVector, Vector2.up);
-                //_rb.velocity = wallJumpDirection.normalized * _jumpPower;
                 FlipX(hitWallRight.normal.x);
             }
         }
@@ -81,26 +80,22 @@ public class PlayerController : InstanceSystem<PlayerController>
             {
                 _isWallJump = true;
                 _rb.velocity = new Vector2(1, 1).normalized * _jumpPower;
-                //var wallJumpVector = hitWallLeft.normal;
-                //var wallJumpDirection = Vector3.Cross(wallJumpVector, Vector2.up);
-                //_rb.velocity = wallJumpDirection.normalized * _jumpPower;
                 FlipX(hitWallLeft.normal.x);
             }
         }
         if (Input.GetButtonDown("Jump"))
         {
-            if (_isGround)
+            if (_isEnemyRock)
             {
-                if (_isEnemyRock)
-                {
-                    _rb.velocity = Vector2.zero;
-                    Vector3 dir = (_enemyPosition - transform.position).normalized;
-                    _rb.AddForce(_enemyPosition * _enemyDushPower, ForceMode2D.Impulse);
-                }
-                else
-                {
-                    _rb.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
-                }
+                _rb.velocity = Vector2.zero;
+                _isEnemyDush = true;
+                Vector3 dir = (_enemyPosition - transform.position).normalized;
+                _rb.AddForce(dir * _enemyDushPower, ForceMode2D.Impulse);
+                //_isEnemyDush = false;
+            }
+            else if (_isGround)
+            {
+                _rb.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
             }
         }
     }
@@ -108,7 +103,7 @@ public class PlayerController : InstanceSystem<PlayerController>
     private void FixedUpdate()
     {
         //キャラの左右移動(壁ジャンプの時は左右移動しない)
-        if (!_isWallJump && !_isEnemyRock)
+        if (!_isWallJump && !_isEnemyDush)
         {
             //ダッシュと通常のスピードを変える
             if (Input.GetButton("Fire3"))
@@ -151,4 +146,5 @@ public class PlayerController : InstanceSystem<PlayerController>
         _cursor.SetActive(false);
         _isEnemyRock = false;
     }
+    
 }
