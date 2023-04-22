@@ -1,38 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-/// <summary>強化ボタンの基底クラス</summary>
-public class EnhanceButtonBase : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler
+/// <summary>強化ボタンにつけるスクリプト</summary>
+public class GrowButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler
 {
     private Image _image = default;
-    //GameManagerとってくる
-    [SerializeField, Header("強化される数値")] protected int[] _stats = new int[5];
-    [SerializeField, Header("消費するポイント")] private int[] _cost = new int[5];
-    protected int _count = 0;
+    /// <summary>クリックされたときに呼ばれる関数</summary>
+    public Action OnClicked;
 
     private void Start()
     {
         _image = GetComponent<Image>();
     }
 
-    /// <summary>強化するメソッドを実行する</summary>
     public void OnPointerClick(PointerEventData eventData)
     {
 
-        //スキルポイントが足りてたら強化
-        if(_count < _stats.Length)
+        if(OnClicked != null)
         {
-            Enhance();
-            //スキルポイント減らす
-            Debug.Log($"スキルポイントを{_cost[_count]}消費しました。");
-            _count++;
+            OnClicked();
         }
         else
         {
-            Debug.Log("これ以上強化できません。");
+            Debug.LogError("OnClickedが登録されていません。");
         }
         
     }
