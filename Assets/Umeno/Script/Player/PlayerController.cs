@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : InstanceSystem<PlayerController>
@@ -8,19 +7,23 @@ public class PlayerController : InstanceSystem<PlayerController>
     [SerializeField, Tooltip("通常時のスピード")] int _defaultSpeed;
     [SerializeField, Tooltip("ダッシュ時のスピード")] int _dushSpeed;
     [SerializeField, Tooltip("ジャンプのパワー")] float _jumpPower;
+    [SerializeField, Tooltip("エネミーに突進するときの力")] float _enemyDushPower;
     [Header("壁にあたった時のRayに関する数値")]
     [SerializeField] float _wallRayRange;
     [SerializeField, Tooltip("Groundのレイヤー")] LayerMask _wallLayer;
     [Header("設置判定のRayに関する数値")]
     [SerializeField, Tooltip("設置判定のRayの長さ")] float _groundRayRange;
     [SerializeField, Tooltip("Groundのレイヤー")] LayerMask _groundLayer;
-    [Header("プレイヤーアタックに関する数値")]
+    [Header("プレイヤーの動きに関する変数")]
     [SerializeField, Tooltip("アタック用のオブジェクト")] GameObject _attackObject;
+    [SerializeField, Tooltip("エネミーロックのカーソルオブジェクト")] GameObject _cursor;
     Rigidbody2D _rb;
     Animator _anim;
+    Vector3 _enemyPosition;
     float _x;
     bool _isGround;
     bool _isWallJump;
+    bool _isEnemyRock;
 
     public bool IsGround { get => _isGround; set => _isGround = value; }
     public bool IsWallJump { get => _isWallJump; set => _isWallJump = value; }
@@ -41,7 +44,8 @@ public class PlayerController : InstanceSystem<PlayerController>
         if (hitGround)
         {
             //床オブジェクトにあるJudge関数でboolを変更する(接地判定)
-            hitGround.collider.gameObject.GetComponent<IJude>().GroundJudge();
+            _isGround = true;
+            _isWallJump = false;
         }
         else
         {
@@ -60,8 +64,11 @@ public class PlayerController : InstanceSystem<PlayerController>
             //壁に当たった状態でジャンプしたら左上に飛ぶ
             if (Input.GetButtonDown("Jump"))
             {
-                hitWallRight.collider.gameObject.GetComponent<IJude>().GroundJudge();
+                _isWallJump = true;
                 _rb.velocity = new Vector2(-1, 1).normalized * _jumpPower;
+                //var wallJumpVector = hitWallRight.normal;
+                //var wallJumpDirection = Vector3.Cross(wallJumpVector, Vector2.up);
+                //_rb.velocity = wallJumpDirection.normalized * _jumpPower;
                 FlipX(hitWallRight.normal.x);
             }
         }
@@ -72,21 +79,36 @@ public class PlayerController : InstanceSystem<PlayerController>
             //壁に当たった状態でジャンプしたら右上に飛ぶ
             if (Input.GetButtonDown("Jump"))
             {
-                hitWallLeft.collider.gameObject.GetComponent<IJude>().GroundJudge();
+                _isWallJump = true;
                 _rb.velocity = new Vector2(1, 1).normalized * _jumpPower;
+                //var wallJumpVector = hitWallLeft.normal;
+                //var wallJumpDirection = Vector3.Cross(wallJumpVector, Vector2.up);
+                //_rb.velocity = wallJumpDirection.normalized * _jumpPower;
                 FlipX(hitWallLeft.normal.x);
             }
         }
         if (Input.GetButtonDown("Jump"))
         {
-            _rb.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
+            if (_isGround)
+            {
+                if (_isEnemyRock)
+                {
+                    _rb.velocity = Vector2.zero;
+                    Vector3 dir = (_enemyPosition - transform.position).normalized;
+                    _rb.AddForce(_enemyPosition * _enemyDushPower, ForceMode2D.Impulse);
+                }
+                else
+                {
+                    _rb.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
+                }
+            }
         }
     }
 
     private void FixedUpdate()
     {
         //キャラの左右移動(壁ジャンプの時は左右移動しない)
-        if (!_isWallJump)
+        if (!_isWallJump && !_isEnemyRock)
         {
             //ダッシュと通常のスピードを変える
             if (Input.GetButton("Fire3"))
@@ -104,13 +126,29 @@ public class PlayerController : InstanceSystem<PlayerController>
     void FlipX(float x)
     {
         //入力している方向にキャラを向かせる
-        if(x > 0)
+        if (x > 0)
         {
-            transform.localScale = new Vector2(Mathf.Abs(transform.localScale.x), transform.localScale.y) ;
+            transform.localScale = new Vector2(Mathf.Abs(transform.localScale.x), transform.localScale.y);
         }
-        else if(x < 0)
+        else if (x < 0)
         {
             transform.localScale = new Vector2(-1 * Mathf.Abs(transform.localScale.x), transform.localScale.y);
         }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy"))
+        {
+            _enemyPosition = collision.gameObject.transform.position;
+            _cursor.transform.position = _enemyPosition;
+            _cursor.SetActive(true);
+            _isEnemyRock = true;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        _cursor.SetActive(false);
+        _isEnemyRock = false;
     }
 }
