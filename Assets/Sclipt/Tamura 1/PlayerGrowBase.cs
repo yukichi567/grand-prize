@@ -5,12 +5,8 @@ using UniRx;
 public class PlayerGrowBase : MonoBehaviour, IPlayerGrow
 {
     //GameManagerとってくる
-    [SerializeField, Header("強化される数値(0番目は初期値)")] protected int[] _stats = new int[6];
-    /// <summary>強化される数値(0番目は初期値)</summary>
-    public int[] Stats => _stats;
+    [SerializeField, Header("強化される数値(0番目は初期値)")] protected float[] _stats = new float[6];
     [SerializeField, Header("消費するポイント")] protected int[] _costs = new int[5];
-    /// <summary>消費するポイント</summary>
-    public int[] Costs => _costs;
     [Tooltip("強化した回数")] protected ReactiveProperty<int> _count = new ReactiveProperty<int>(0);
     public IReadOnlyReactiveProperty<int> Count => _count;
 
@@ -35,6 +31,34 @@ public class PlayerGrowBase : MonoBehaviour, IPlayerGrow
     protected virtual void Grow()
     {
         Debug.LogError("継承先でメソッドを定義してください。");
+    }
+
+    /// <summary>今のステータスの値を返すメソッド</summary>
+    /// <returns></returns>
+    public float GetNowState()
+    {
+        return _stats[_count.Value];
+    }
+
+    /// <summary>次の強化の値を返すメソッド</summary>
+    /// <returns></returns>
+    public float GetNextState()
+    {
+        return _stats[_count.Value + 1];
+    }
+
+    /// <summary>強化にかかるコストを返すメソッド</summary>
+    /// <returns></returns>
+    public int GetCost()
+    {
+        return _costs[_count.Value];
+    }
+
+    /// <summary>最大までの強化する回数を返すメソッド</summary>
+    /// <returns></returns>
+    public int GetMaxGrowCount()
+    {
+        return _costs.Length;
     }
 
 }

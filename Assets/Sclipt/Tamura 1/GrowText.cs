@@ -9,7 +9,7 @@ public class GrowText : MonoBehaviour
     /// <summary>今のステータスと、強化後のステータスをテキストに表示する</summary>
     /// <param name="nowState"></param>
     /// <param name="nextState"></param>
-    public void SetGrowInfText(int nowState, int nextState)
+    public void SetGrowInfText(float nowState, float nextState)
     {
         _growInf.text = $"{nowState} → {nextState}";
     }
@@ -23,7 +23,7 @@ public class GrowText : MonoBehaviour
 
     /// <summary>最大まで強化したときのテキストを表示する</summary>
     /// <param name="state"></param>
-    public void SetCompleteText(int state)
+    public void SetCompleteText(float state)
     {
         _growInf.text = $"{state}";
         _costInf.text = $"最大まで強化済み";
