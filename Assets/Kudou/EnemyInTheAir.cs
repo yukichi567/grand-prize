@@ -16,12 +16,14 @@ public class EnemyInTheAir : EnemyBase
     int direction;
     int _movePosNumber = 0;
     Vector3 _StartPosition;
-    Vector3 _ChangePosSave;
+    float _ChangePosSaveY;
+    float _ChangePosSaveX;
+    Rigidbody2D _rb2;
     // Start is called before the first frame update
     void Start()
     {
-         
         _StartPosition = transform.position;
+        _rb2 = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -31,16 +33,27 @@ public class EnemyInTheAir : EnemyBase
         if(_enemyType.HasFlag(EnemyType.UpDown))
         {
             float sin = Mathf.Sin(time * _verticalMoveSpeed);
-            
-            transform.position = _StartPosition + _ChangePosSave + new Vector3(0, sin * _verticalMoveRange, 0);;
-            _ChangePosSave = new Vector3(0, sin * _verticalMoveRange, 0);
+            //transform.positionÇ≈ìÆÇ©ÇµÇΩèÍçá
+            transform.position = _StartPosition + new Vector3(_ChangePosSaveX, sin * _verticalMoveRange, 0); ;
+            _ChangePosSaveY = sin * _verticalMoveRange;
+            //_rb2.velocity = new Vector3(0, (sin < 0 ? -1 : 1) * _verticalMoveRange, 0);
+        }
+        else
+        {
+            _ChangePosSaveY = 0;
         }
 
         if(_enemyType.HasFlag(EnemyType.LateralMove))
         {
             float sin = Mathf.Sin(time * _horizonMoveSpeed);
-            transform.position = _StartPosition + _ChangePosSave + new Vector3(sin * _horizonMoveRange, 0, 0);
-            _ChangePosSave = new Vector3(sin * _horizonMoveRange, 0, 0);
+            //transform.positionÇ≈ìÆÇ©ÇµÇΩèÍçá
+            transform.position = _StartPosition + new Vector3(sin * _horizonMoveRange, _ChangePosSaveY, 0);
+            _ChangePosSaveX = sin * _horizonMoveRange;
+            //_rb2.velocity = new Vector3((sin < 0 ? -1 : 1), 0, 0);
+        }
+        else
+        {
+            _ChangePosSaveX = 0;
         }
 
     }
