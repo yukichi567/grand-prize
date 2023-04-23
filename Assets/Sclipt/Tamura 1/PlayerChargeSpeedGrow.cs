@@ -8,7 +8,7 @@ public class PlayerChargeSpeedGrow : PlayerGrowBase
 
     protected override void Grow()
     {
-        _chargeSpeed = _stats[_count];
+        _chargeSpeed = _stats[_count.Value];
         Debug.Log($"突進スピードが{_chargeSpeed}になりました。");
     }
 

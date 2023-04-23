@@ -8,7 +8,7 @@ public class PlayerSpeedGrow : PlayerGrowBase
 
     protected override void Grow()
     {
-        _speed = _stats[_count];
+        _speed = _stats[_count.Value];
         Debug.Log($"スピードが{_speed}になりました。");
     }
 

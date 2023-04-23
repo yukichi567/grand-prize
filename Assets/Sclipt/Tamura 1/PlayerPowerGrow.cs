@@ -8,7 +8,7 @@ public class PlayerPowerGrow : PlayerGrowBase, IPlayerGrow
 
     protected override void Grow()
     {
-        _power = _stats[_count];
+        _power = _stats[_count.Value];
         Debug.Log($"ƒpƒ[‚ª{_power}‚É‚È‚è‚Ü‚µ‚½B");
     }
 
