@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
+using System.Collections;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : InstanceSystem<PlayerController>
@@ -8,26 +10,27 @@ public class PlayerController : InstanceSystem<PlayerController>
     [SerializeField, Tooltip("ダッシュ時のスピード")] int _dushSpeed;
     [SerializeField, Tooltip("ジャンプのパワー")] float _jumpPower;
     [SerializeField, Tooltip("エネミーに突進するときの力")] float _enemyDushPower;
-    [Header("壁にあたった時のRayに関する数値")]
-    [SerializeField] float _wallRayRange;
-    [SerializeField, Tooltip("Groundのレイヤー")] LayerMask _wallLayer;
     [Header("設置判定のRayに関する数値")]
     [SerializeField, Tooltip("設置判定のRayの長さ")] float _groundRayRange;
     [SerializeField, Tooltip("Groundのレイヤー")] LayerMask _groundLayer;
+    [Header("壁にあたった時のRayに関する数値")]
+    [SerializeField, Tooltip("左右のRayの長さ(Wall判定)")] float _wallRayRange;
+    [SerializeField, Tooltip("Groundのレイヤー")] LayerMask _wallLayer;
     [Header("プレイヤーの動きに関する変数")]
     [SerializeField, Tooltip("アタック用のオブジェクト")] GameObject _attackObject;
-    [SerializeField, Tooltip("エネミーロックのカーソルオブジェクト")] GameObject _cursor;
+    [SerializeField, Tooltip("エネミーロックのオブジェクト")] GameObject _cursor;
     Rigidbody2D _rb;
     Animator _anim;
     Vector3 _enemyPosition;
+    GameObject _targetEnemy;
     float _x;
     bool _isGround;
     bool _isWallJump;
     bool _isEnemyRock;
     bool _isEnemyDush;
 
-    public bool IsGround { get => _isGround; set => _isGround = value; }
-    public bool IsWallJump { get => _isWallJump; set => _isWallJump = value; }
+    public Vector3 EnemyPosition { get => _enemyPosition; set => _enemyPosition = value; }
+    public bool IsEnemyRock { get => _isEnemyRock; set => _isEnemyRock = value; }
 
     void Start()
     {
@@ -47,7 +50,7 @@ public class PlayerController : InstanceSystem<PlayerController>
             //床オブジェクトにあるJudge関数でboolを変更する(接地判定)
             _isGround = true;
             _isWallJump = false;
-            _isEnemyDush = false;
+            GetComponent<CapsuleCollider2D>().isTrigger = false;
         }
         else
         {
@@ -91,13 +94,26 @@ public class PlayerController : InstanceSystem<PlayerController>
                 _isEnemyDush = true;
                 Vector3 dir = (_enemyPosition - transform.position).normalized;
                 _rb.AddForce(dir * _enemyDushPower, ForceMode2D.Impulse);
-                //_isEnemyDush = false;
+                GetComponent<CapsuleCollider2D>().isTrigger = true;
+                StartCoroutine(EnemtDush());
             }
             else if (_isGround)
             {
                 _rb.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
             }
         }
+        float enemyDistance = Vector3.Distance(_enemyPosition, transform.position);
+        if(enemyDistance < 0.5f)
+        {
+            Debug.Log("敵を倒した");
+            //_targetEnemy.Damage(100);
+        }
+    }
+
+    IEnumerator EnemtDush()
+    {
+        yield return new WaitForSeconds(0.5f);
+        _isEnemyDush = false;
     }
 
     private void FixedUpdate()
@@ -135,7 +151,8 @@ public class PlayerController : InstanceSystem<PlayerController>
     {
         if (collision.CompareTag("Enemy"))
         {
-            _enemyPosition = collision.gameObject.transform.position;
+            _targetEnemy = collision.gameObject;
+            _enemyPosition = _targetEnemy.transform.position;
             _cursor.transform.position = _enemyPosition;
             _cursor.SetActive(true);
             _isEnemyRock = true;
@@ -146,5 +163,4 @@ public class PlayerController : InstanceSystem<PlayerController>
         _cursor.SetActive(false);
         _isEnemyRock = false;
     }
-    
 }
