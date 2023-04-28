@@ -5,11 +5,13 @@ using System.Collections;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : InstanceSystem<PlayerController>
 {
-    [Header("プレイヤーの動きに関する数値")]
-    [SerializeField, Tooltip("通常時のスピード")] int _defaultSpeed;
-    [SerializeField, Tooltip("ダッシュ時のスピード")] int _dushSpeed;
+    [Header("プレイヤーの数値")]
+    [SerializeField, Tooltip("プレイヤーのHP")] int _hp;
+    [SerializeField, Tooltip("プレイヤーの攻撃力")] int _power;
+    [SerializeField, Tooltip("プレイヤーの基本移動速度")] int _moveSpeed;
     [SerializeField, Tooltip("ジャンプのパワー")] float _jumpPower;
     [SerializeField, Tooltip("エネミーに突進するときの力")] float _enemyDushPower;
+    [SerializeField, Tooltip("壁ジャンプのパワー")] float _wallJumpPower;
     [Header("設置判定のRayに関する数値")]
     [SerializeField, Tooltip("設置判定のRayの長さ")] float _groundRayRange;
     [SerializeField, Tooltip("Groundのレイヤー")] LayerMask _groundLayer;
@@ -24,6 +26,8 @@ public class PlayerController : InstanceSystem<PlayerController>
     Vector3 _enemyPosition;
     GameObject _targetEnemy;
     float _x;
+    int _defaultSpeed;
+    int _dushSpeed;
     bool _isGround;
     bool _isWallJump;
     bool _isEnemyRock;
@@ -31,11 +35,16 @@ public class PlayerController : InstanceSystem<PlayerController>
 
     public Vector3 EnemyPosition { get => _enemyPosition; set => _enemyPosition = value; }
     public bool IsEnemyRock { get => _isEnemyRock; set => _isEnemyRock = value; }
+    public int HP { get => _hp; set => _hp = value; }
+    public int Power { get => _power; set => _power = value; }
+    public int MoveSpeed { get => _moveSpeed; set => _moveSpeed = value; }
 
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
+        _defaultSpeed = _moveSpeed;
+        _dushSpeed = _moveSpeed + 5;
     }
 
     void Update()
@@ -70,7 +79,7 @@ public class PlayerController : InstanceSystem<PlayerController>
             if (Input.GetButtonDown("Jump"))
             {
                 _isWallJump = true;
-                _rb.velocity = new Vector2(-1, 1).normalized * _jumpPower;
+                _rb.velocity = new Vector2(-1, 1).normalized * _wallJumpPower;
                 FlipX(hitWallRight.normal.x);
             }
         }
@@ -82,7 +91,7 @@ public class PlayerController : InstanceSystem<PlayerController>
             if (Input.GetButtonDown("Jump"))
             {
                 _isWallJump = true;
-                _rb.velocity = new Vector2(1, 1).normalized * _jumpPower;
+                _rb.velocity = new Vector2(1, 1).normalized * _wallJumpPower;
                 FlipX(hitWallLeft.normal.x);
             }
         }
@@ -106,10 +115,11 @@ public class PlayerController : InstanceSystem<PlayerController>
         if(enemyDistance < 0.5f)
         {
             Debug.Log("敵を倒した");
-            //_targetEnemy.Damage(100);
+            _targetEnemy.GetComponent<EnemyBase>().Damage(100);
         }
     }
 
+    //敵に突進する攻撃　
     IEnumerator EnemtDush()
     {
         yield return new WaitForSeconds(0.5f);
@@ -149,6 +159,7 @@ public class PlayerController : InstanceSystem<PlayerController>
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+        //敵が一定距離にいる場合敵の位置を保存する
         if (collision.CompareTag("Enemy"))
         {
             _targetEnemy = collision.gameObject;
@@ -158,6 +169,8 @@ public class PlayerController : InstanceSystem<PlayerController>
             _isEnemyRock = true;
         }
     }
+
+    //コライダーから離れた時カーソルを非表示にする
     private void OnTriggerExit2D(Collider2D collision)
     {
         _cursor.SetActive(false);
