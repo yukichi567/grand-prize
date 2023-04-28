@@ -36,14 +36,14 @@ public class EnemyOnTheGround : EnemyBase
             if (_stopTimer > 10 + _stopTime)
             {
                 _isMove = true;
-                _anim.SetBool("" , _isMove);
+                
             }
             else if (_stopTimer > 10)
             {
-                _isMove = false;
-                _anim.SetBool("", _isMove);
+                _isMove = false;  
             }
         }
+        _anim.SetBool("Move", _isMove);
     }
 
     private void Move()
@@ -52,12 +52,10 @@ public class EnemyOnTheGround : EnemyBase
         if (dir.magnitude > 1)
         {
             _rb.velocity = new Vector3(dir.normalized.x * _walkSpeed * Time.deltaTime,0,0);
-            Debug.Log(dir.magnitude);
         }
         else
         {
             DestinationPosChange();
-            Debug.Log(_movePosNumber);
         }
 
         
