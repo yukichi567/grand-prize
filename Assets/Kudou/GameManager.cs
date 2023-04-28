@@ -58,11 +58,16 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     }
     /// <summary>ポイント減算関数</summary>
     /// <param name="pointNum">減算するポイント数</param>
-    public void PointMinus(int pointNum)
+    public bool PointMinus(int pointNum)
     {
         if (pointNum <= _point)
         {
             _point -= pointNum;
+            return true;
+        }
+        else
+        {
+            return false;
         }
     } 
     
