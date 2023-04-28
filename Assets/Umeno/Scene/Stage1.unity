@@ -552,7 +552,7 @@ GameObject:
   - component: {fileID: 1269703255}
   - component: {fileID: 1269703257}
   m_Layer: 3
-  m_Name: Tilemap
+  m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9300,6 +9300,10 @@ PrefabInstance:
     - target: {fileID: 7833926587203257674, guid: e188110e2302b424a9c2e9ee7375765a, type: 3}
       propertyPath: _enemyDushPower
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7833926587203257674, guid: e188110e2302b424a9c2e9ee7375765a, type: 3}
+      propertyPath: _wallLayer.m_Bits
+      value: 192
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e188110e2302b424a9c2e9ee7375765a, type: 3}
