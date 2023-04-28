@@ -34,10 +34,10 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
-    private void  Damage(int damage)
+    public void  Damage(int damage)
     {
         _nowHP -= damage;
-        if(_nowHP < 0)
+        if(_nowHP <= 0)
         {
             Destroy(gameObject);
         }
