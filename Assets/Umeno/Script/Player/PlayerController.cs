@@ -157,6 +157,15 @@ public class PlayerController : InstanceSystem<PlayerController>
         }
     }
 
+    public void Damage(int damage)
+    {
+        _hp -= damage;
+        if(_hp < 0)
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
     private void OnTriggerStay2D(Collider2D collision)
     {
         //敵が一定距離にいる場合敵の位置を保存する
