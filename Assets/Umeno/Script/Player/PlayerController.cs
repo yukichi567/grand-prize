@@ -50,6 +50,7 @@ public class PlayerController : InstanceSystem<PlayerController>
     void Update()
     {
         _x = Input.GetAxisRaw("Horizontal");
+        Debug.Log(_x);
         _anim.SetFloat("Speed", _rb.velocity.magnitude);
         //接地判定
         RaycastHit2D hitGround = Physics2D.Raycast(transform.position, Vector2.down, _groundRayRange, (int)_groundLayer);
@@ -102,6 +103,7 @@ public class PlayerController : InstanceSystem<PlayerController>
                 _rb.velocity = Vector2.zero;
                 _isEnemyDush = true;
                 Vector3 dir = (_enemyPosition - transform.position).normalized;
+                //_rb.velocity = dir * _enemyDushPower;
                 _rb.AddForce(dir * _enemyDushPower, ForceMode2D.Impulse);
                 GetComponent<CapsuleCollider2D>().isTrigger = true;
                 StartCoroutine(EnemtDush());
@@ -116,6 +118,7 @@ public class PlayerController : InstanceSystem<PlayerController>
         {
             Debug.Log("敵を倒した");
             _targetEnemy.GetComponent<EnemyBase>().Damage(100);
+            _rb.velocity = Vector3.zero;
         }
     }
 
