@@ -10,7 +10,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     /// <summary>ステージクリアまでにかかった時間用変数</summary>
     float _timer;
     /// <summary>Player強化のためのPoint変数</summary>
-    int _point;
+    int _point = 0;
     /// <summary>各ステージのクリア時間の最小値を保存する用のDictinary</summary>
     Dictionary<StageNumber, float> _gameLowerTime = new Dictionary<StageNumber, float>();
     /// <summary>現在のゲーム状態</summary>
