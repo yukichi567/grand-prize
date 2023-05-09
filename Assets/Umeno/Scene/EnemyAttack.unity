@@ -1784,5 +1784,17 @@ PrefabInstance:
       propertyPath: _cursor
       value: 
       objectReference: {fileID: 477804850}
+    - target: {fileID: 7833926587203257674, guid: e188110e2302b424a9c2e9ee7375765a, type: 3}
+      propertyPath: _moveSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7833926587203257674, guid: e188110e2302b424a9c2e9ee7375765a, type: 3}
+      propertyPath: _wallJumpPower
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7833926587203257674, guid: e188110e2302b424a9c2e9ee7375765a, type: 3}
+      propertyPath: _enemyDushPower
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e188110e2302b424a9c2e9ee7375765a, type: 3}
