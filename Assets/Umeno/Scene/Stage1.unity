@@ -9938,6 +9938,10 @@ PrefabInstance:
       propertyPath: _wallLayer.m_Bits
       value: 192
       objectReference: {fileID: 0}
+    - target: {fileID: 7833926588644880492, guid: e188110e2302b424a9c2e9ee7375765a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e188110e2302b424a9c2e9ee7375765a, type: 3}
 --- !u!1 &1446664777

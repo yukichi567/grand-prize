@@ -120,8 +120,18 @@ public class PlayerController : InstanceSystem<PlayerController>
             _targetEnemy.GetComponent<EnemyBase>().Damage(100);
             _rb.velocity = Vector3.zero;
         }
+        if(Input.GetButtonDown("Fire1"))
+        {
+            StartCoroutine(Attack(_attackObject, 0.5f));
+        }
     }
 
+    IEnumerator Attack(GameObject attckArea, float interval)
+    {
+        attckArea.SetActive(true);
+        yield return new WaitForSeconds(interval);
+        attckArea.SetActive(false);
+    }
     //敵に突進する攻撃　
     IEnumerator EnemtDush()
     {
