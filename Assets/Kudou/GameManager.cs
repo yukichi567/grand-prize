@@ -6,6 +6,8 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
 {
     [SerializeField, Header("難易度調整　敵のHPをいくつ上げるか")] int _maxhpUp;
     [SerializeField, Header("難易度調整　敵の攻撃力をいくつ上げるか")] int _attackPowerUp;
+    [SerializeField, Header("何秒Timeをきったらpointボーナスか")] float _bonusPointTime;
+    [SerializeField, Header("ボーナスポイント数")] int _bonusPoint;
     EnemyBase[] _enemyBasise;
     /// <summary>ステージクリアまでにかかった時間用変数</summary>
     float _timer;
@@ -178,4 +180,11 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         }
     }
 
+    void TimerScorePoint(float timer)
+    {
+        if(timer < _bonusPointTime)
+        {
+            PointPlus(_bonusPoint);
+        }
+    }
 }
