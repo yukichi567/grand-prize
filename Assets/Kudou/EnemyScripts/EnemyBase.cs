@@ -7,7 +7,7 @@ public class EnemyBase : MonoBehaviour
     [SerializeField, Header("HPÅ‘å’l")]protected int _maxHP;
     protected int _nowHP;
     [SerializeField, Header("UŒ‚—Í")]protected int _attackPower;
-
+    protected PlayerController _playerController;
     private void Start()
     {
         _nowHP = _maxHP;
@@ -31,9 +31,14 @@ public class EnemyBase : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             //Player‚ÌHP[UŒ‚—Í
+            Attack();
         }
     }
 
+    public void Attack()
+    {
+        _playerController.HP -= _attackPower;
+    }
     public void  Damage(int damage)
     {
         _nowHP -= damage;
