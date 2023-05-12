@@ -51,7 +51,9 @@ public class PlayerController : InstanceSystem<PlayerController>
     {
         _x = Input.GetAxisRaw("Horizontal");
         Debug.Log(_x);
-        _anim.SetFloat("Speed", _rb.velocity.magnitude);
+        //_anim.SetFloat("Speed", _rb.velocity.magnitude);
+        _anim.SetBool("Jump", _isGround);
+        _anim.SetBool("WallJump", _isWallJump);
         //接地判定
         RaycastHit2D hitGround = Physics2D.Raycast(transform.position, Vector2.down, _groundRayRange, (int)_groundLayer);
         Debug.DrawRay(transform.position, Vector2.down * _groundRayRange, Color.red);
