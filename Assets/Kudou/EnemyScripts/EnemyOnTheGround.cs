@@ -32,7 +32,7 @@ public class EnemyOnTheGround : EnemyBase
 
         if (_isStop)
         {
-            _stopTimer += Time.deltaTime;
+            _stopTimer += Time.fixedDeltaTime;
             if (_stopTimer > 10 + _stopTime)
             {
                 _isMove = true;

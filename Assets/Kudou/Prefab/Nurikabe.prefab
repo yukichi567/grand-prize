@@ -163,8 +163,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHP: 10
+  _point: 0
   _attackPower: 10
-  _walkSpeed: 100
+  _walkSpeed: 10
   _movePos:
   - {fileID: 8580774043741413229}
   - {fileID: 8580774043653216389}
