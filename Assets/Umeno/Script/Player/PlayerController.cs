@@ -5,13 +5,6 @@ using System.Collections;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : InstanceSystem<PlayerController>
 {
-    [Header("プレイヤーの数値")]
-    [SerializeField, Tooltip("プレイヤーのHP")] int _hp;
-    [SerializeField, Tooltip("プレイヤーの攻撃力")] int _power;
-    [SerializeField, Tooltip("プレイヤーの基本移動速度")] int _moveSpeed;
-    [SerializeField, Tooltip("ジャンプのパワー")] float _jumpPower;
-    [SerializeField, Tooltip("エネミーに突進するときの力")] float _enemyDushPower;
-    [SerializeField, Tooltip("壁ジャンプのパワー")] float _wallJumpPower;
     [Header("設置判定のRayに関する数値")]
     [SerializeField, Tooltip("設置判定のRayの長さ")] float _groundRayRange;
     [SerializeField, Tooltip("Groundのレイヤー")] LayerMask _groundLayer;
@@ -28,17 +21,29 @@ public class PlayerController : InstanceSystem<PlayerController>
     float _x;
     int _defaultSpeed;
     int _dushSpeed;
+    int _hp;
+    int _power;
+    int _moveSpeed;
+    float _jumpPower;
+    float _enemyDushPower;
+    float _wallJumpPower;
     bool _isGround;
     bool _isWallJump;
     bool _isEnemyRock;
     bool _isEnemyDush;
 
-    public Vector3 EnemyPosition { get => _enemyPosition; set => _enemyPosition = value; }
-    public bool IsEnemyRock { get => _isEnemyRock; set => _isEnemyRock = value; }
-    public int HP { get => _hp; set => _hp = value; }
-    public int Power { get => _power; set => _power = value; }
-    public int MoveSpeed { get => _moveSpeed; set => _moveSpeed = value; }
+    public int HP { get =>  _hp; set => _hp = value;}
 
+    private void Awake()
+    {
+        PlayerData maxStatus = Resources.Load<PlayerData>("PlayerData");
+        _hp = maxStatus.MaxHp;
+        _power = maxStatus.MaxPower;
+        _moveSpeed = maxStatus.MaxSpeed;
+        _jumpPower = maxStatus.JumpPower;
+        _enemyDushPower = maxStatus.EnemyDushPower;
+        _wallJumpPower = maxStatus.WallJumpPower;
+    }
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -52,7 +57,7 @@ public class PlayerController : InstanceSystem<PlayerController>
         _x = Input.GetAxisRaw("Horizontal");
         Debug.Log(_x);
         //_anim.SetFloat("Speed", _rb.velocity.magnitude);
-        _anim.SetBool("Jump", _isGround);
+        _anim.SetBool("Jump", _isGround); 
         _anim.SetBool("WallJump", _isWallJump);
         //接地判定
         RaycastHit2D hitGround = Physics2D.Raycast(transform.position, Vector2.down, _groundRayRange, (int)_groundLayer);
@@ -119,7 +124,7 @@ public class PlayerController : InstanceSystem<PlayerController>
         if(enemyDistance < 0.5f)
         {
             Debug.Log("敵を倒した");
-            _targetEnemy.GetComponent<EnemyBase>().Damage(100);
+            _targetEnemy.GetComponent<EnemyBase>().Damage(_power * 2);
             _rb.velocity = Vector3.zero;
         }
         if(Input.GetButtonDown("Fire1"))

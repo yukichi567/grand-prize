@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7833926587203257679}
   - component: {fileID: 7833926587203257674}
   m_Layer: 0
-  m_Name: Player (1)
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 7833926587203257672}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0.73, y: -3.41, z: 0}
-  m_LocalScale: {x: 1.7237628, y: 1.7237628, z: 1.7237628}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7833926588644880493}
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -452616285, guid: 8da35b3e99849c14fa53f4d483dcd190, type: 3}
+  m_Sprite: {fileID: 544811981, guid: 5274f48d44d4ad14fa69cac0a7a5c304, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -100,7 +100,7 @@ Animator:
   m_GameObject: {fileID: 7833926587203257672}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2ca9d749e8654e240a3bb2095c490789, type: 2}
+  m_Controller: {fileID: 9100000, guid: 3d1740a49f293464c9cde628213a40c9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -123,8 +123,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.36, y: 0.72}
+  m_Offset: {x: 0.52708983, y: 0.013014555}
+  m_Size: {x: 0.7764659, y: 1.3881507}
   m_Direction: 0
 --- !u!50 &7833926587203257675
 Rigidbody2D:
@@ -160,9 +160,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.5808201, y: 0}
   serializedVersion: 2
-  m_Radius: 2
+  m_Radius: 2.58082
 --- !u!114 &7833926587203257674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,18 +175,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae4a1eea6b9ea70419b9518ac038ce82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _defaultSpeed: 5
-  _dushSpeed: 10
   _jumpPower: 7
-  _enemyDushPower: 3
-  _groundRayRange: 0.7
+  _enemyDushPower: 15
+  _wallJumpPower: 10
+  _groundRayRange: 1
   _groundLayer:
     serializedVersion: 2
     m_Bits: 8
   _wallRayRange: 0.4
   _wallLayer:
     serializedVersion: 2
-    m_Bits: 136
+    m_Bits: 192
   _attackObject: {fileID: 7833926588644880492}
   _cursor: {fileID: 0}
 --- !u!1 &7833926588644880492
@@ -205,7 +204,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7833926588644880493
 Transform:
   m_ObjectHideFlags: 0
