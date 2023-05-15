@@ -6,10 +6,12 @@ public class EnemyBase : MonoBehaviour
 {
     [SerializeField, Header("HP最大値")]protected int _maxHP;
     protected int _nowHP;
+    [SerializeField, Header("Playerが取得するポイント")] int _point;
     [SerializeField, Header("攻撃力")]protected int _attackPower;
-
+    protected PlayerController _playerController;
     private void Start()
     {
+        _playerController = FindObjectOfType<PlayerController>();
         _nowHP = _maxHP;
     }
     /// <summary>EnemyのHP最大値を増やす関数</summary>
@@ -31,14 +33,20 @@ public class EnemyBase : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             //PlayerのHPー攻撃力
+            Attack();
         }
     }
 
+    public void Attack()
+    {
+        _playerController.HP -= _attackPower;
+    }
     public void  Damage(int damage)
     {
         _nowHP -= damage;
         if(_nowHP <= 0)
         {
+            GameManager.Instance.PointPlus(_point);
             Destroy(gameObject);
         }
     }

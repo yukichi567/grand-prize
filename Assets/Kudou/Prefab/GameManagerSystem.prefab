@@ -46,3 +46,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxhpUp: 5
   _attackPowerUp: 5
+  _bonusPointTime: 50
+  _bonusPoint: 100
