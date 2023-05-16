@@ -179,29 +179,29 @@ MonoBehaviour:
   _bgmSoundDatas:
   - _bgm: 0
     _audioClip: {fileID: 0}
-    _volume: 0
+    _volume: 1
   - _bgm: 0
     _audioClip: {fileID: 0}
-    _volume: 0
+    _volume: 1
   _seSoundDatas:
   - Se: 0
     AudioClip: {fileID: 0}
-    Volume: 0
+    Volume: 1
   - Se: 0
     AudioClip: {fileID: 0}
-    Volume: 0
+    Volume: 1
   - Se: 0
     AudioClip: {fileID: 0}
-    Volume: 0
+    Volume: 1
   - Se: 0
     AudioClip: {fileID: 0}
-    Volume: 0
+    Volume: 1
   - Se: 0
     AudioClip: {fileID: 0}
-    Volume: 0
+    Volume: 1
   - Se: 0
     AudioClip: {fileID: 0}
-    Volume: 0
+    Volume: 1
   _masterVolume: 1
   _bgmMasterVolume: 1
   _seMasterVolume: 1
