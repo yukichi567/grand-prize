@@ -13,6 +13,8 @@ public class PlayerGrowPresenter : MonoBehaviour
     [SerializeField] private GrowText _speedText = default;
     [SerializeField] private GrowText _chargeSpeedText = default;
 
+    [SerializeField] private SkilPointText _skilPointText = default;
+
     //model
     [SerializeField] private PlayerGrowBase _powerGrow = default;
     [SerializeField] private PlayerGrowBase _speedGrow = default;
@@ -36,6 +38,7 @@ public class PlayerGrowPresenter : MonoBehaviour
                 {
                     _powerText.SetGrowInfText(_powerGrow.GetNowState(), _powerGrow.GetNextState());
                     _powerText.SetCostInfText(_powerGrow.GetCost());
+                    _skilPointText.SetSkilPointText(GameManager.Instance.Point);
                 }
                 else
                 {
@@ -53,6 +56,7 @@ public class PlayerGrowPresenter : MonoBehaviour
                 {
                     _speedText.SetGrowInfText(_speedGrow.GetNowState(), _speedGrow.GetNextState());
                     _speedText.SetCostInfText(_speedGrow.GetCost());
+                    _skilPointText.SetSkilPointText(GameManager.Instance.Point);
                 }
                 else
                 {
@@ -70,6 +74,7 @@ public class PlayerGrowPresenter : MonoBehaviour
                 {
                     _chargeSpeedText.SetGrowInfText(_chargeSpeedGrow.GetNowState(), _chargeSpeedGrow.GetNextState());
                     _chargeSpeedText.SetCostInfText(_chargeSpeedGrow.GetCost());
+                    _skilPointText.SetSkilPointText(GameManager.Instance.Point);
                 }
                 else
                 {
