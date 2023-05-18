@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfac7d21b06fb93439e17f9dd5b543f4, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  _hp: 10
-  _power: 5
-  _speed: 2
+  _hp: 5
+  _power:
+    value: 51
+  _speed:
+    value: 60
   _jumpPower: 7
-  _enemyDushPower: 15
+  _enemyDushPower:
+    value: 55
   _wallJumpPower: 10

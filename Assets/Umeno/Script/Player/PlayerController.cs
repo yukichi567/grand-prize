@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using UniRx;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : InstanceSystem<PlayerController>
@@ -22,10 +23,10 @@ public class PlayerController : InstanceSystem<PlayerController>
     int _defaultSpeed;
     int _dushSpeed;
     int _hp;
-    int _power;
-    int _moveSpeed;
+    ReactiveProperty<int> _power;
+    ReactiveProperty<int> _moveSpeed;
     float _jumpPower;
-    float _enemyDushPower;
+    ReactiveProperty<float> _enemyDushPower;
     float _wallJumpPower;
     bool _isGround;
     bool _isWallJump;
@@ -48,8 +49,8 @@ public class PlayerController : InstanceSystem<PlayerController>
     {
         _rb = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
-        _defaultSpeed = _moveSpeed;
-        _dushSpeed = _moveSpeed + 5;
+        _defaultSpeed = _moveSpeed.Value;
+        _dushSpeed = _moveSpeed.Value + 5;
     }
 
     void Update()
@@ -111,7 +112,7 @@ public class PlayerController : InstanceSystem<PlayerController>
                 _isEnemyDush = true;
                 Vector3 dir = (_enemyPosition - transform.position).normalized;
                 //_rb.velocity = dir * _enemyDushPower;
-                _rb.AddForce(dir * _enemyDushPower, ForceMode2D.Impulse);
+                _rb.AddForce(dir * _enemyDushPower.Value, ForceMode2D.Impulse);
                 GetComponent<CapsuleCollider2D>().isTrigger = true;
                 StartCoroutine(EnemtDush());
             }
@@ -124,7 +125,7 @@ public class PlayerController : InstanceSystem<PlayerController>
         if(enemyDistance < 0.5f)
         {
             Debug.Log("敵を倒した");
-            _targetEnemy.GetComponent<EnemyBase>().Damage(_power * 2);
+            _targetEnemy.GetComponent<EnemyBase>().Damage(_power.Value * 2);
             _rb.velocity = Vector3.zero;
         }
         if(Input.GetButtonDown("Fire1"))
