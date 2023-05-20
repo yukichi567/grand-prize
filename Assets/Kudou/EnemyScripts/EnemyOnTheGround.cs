@@ -38,6 +38,7 @@ public class EnemyOnTheGround : EnemyBase
             if (_stopTimer > 10 + _stopTime)
             {
                 _isMove = true;
+                _stopTimer = 0;
                 
             }
             else if (_stopTimer > 10)
