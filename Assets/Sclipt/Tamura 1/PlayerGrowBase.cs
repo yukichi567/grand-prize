@@ -13,13 +13,20 @@ public class PlayerGrowBase : MonoBehaviour, IPlayerGrow
     public void GrowPlayerState()
     {
 
-        //スキルポイントが足りてたら強化
         if (_count.Value < _costs.Length)
         {
-            //スキルポイント減らす
-            Debug.Log($"スキルポイントを{_costs[_count.Value]}消費しました。");
-            _count.Value++;
-            Grow();
+
+            if (GameManager.Instance.PointMinus(_costs[_count.Value]))
+            {
+                Debug.Log($"スキルポイントを{_costs[_count.Value]}消費しました。");
+                _count.Value++;
+                Grow();
+            }
+            else
+            {
+                Debug.Log("スキルポイントが足りません。");
+            }
+            
         }
         else
         {
