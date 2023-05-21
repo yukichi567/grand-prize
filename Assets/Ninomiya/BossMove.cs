@@ -21,6 +21,7 @@ public class BossMove : EnemyBase
     int numRandom;
 
     Animator _anim;
+    [SerializeField] int _countAnim = 0; //アニメーションの制御
     // Start is called before the first frame update
     void Start()
     {
@@ -77,6 +78,7 @@ public class BossMove : EnemyBase
             _playerPosTmp = playerPos;
             _arrived = false;
             Debug.Log("呼ばれた");
+            _countAnim = 0;
         }
         _anim.SetBool("Walk",true);
         Vector2 dir = (_playerPosTmp - _bosspos).normalized;
@@ -86,7 +88,11 @@ public class BossMove : EnemyBase
         {
             _rb.velocity = Vector2.zero;
             _anim.SetBool("Walk", false);
-            StartCoroutine("AttackAnim");
+            if(_countAnim == 0)
+            {
+                StartCoroutine("AttackAnim");
+                _countAnim++;
+            }
         }
     }
     void Attack1()
@@ -132,7 +138,7 @@ public class BossMove : EnemyBase
     {
         _anim.SetBool("Walk", false);
         _anim.SetBool("Attack", true);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         _anim.SetBool("Attack", false);
     }
     private void OnTriggerEnter2D(Collider2D collision)
