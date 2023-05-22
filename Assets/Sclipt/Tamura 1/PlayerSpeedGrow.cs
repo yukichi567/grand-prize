@@ -15,6 +15,8 @@ public class PlayerSpeedGrow : PlayerGrowBase
 
     protected override void Grow()
     {
+        PlayerData data = Resources.Load<PlayerData>("PlayerData");
+        data.MaxSpeed.Value += 10;
         _speedGrowCount++;
         _speed = _stats[_speedGrowCount];
         Debug.Log($"スピードが{_speed}になりました。");
