@@ -19,4 +19,9 @@ public class PlayerData : ScriptableObject
     public ReactiveProperty<float> EnemyDushPower { get => _enemyDushPower; set => _enemyDushPower = value; }
     public float WallJumpPower { get => _wallJumpPower; }
 
+    private void Awake()
+    {
+        
+    }
+
 }

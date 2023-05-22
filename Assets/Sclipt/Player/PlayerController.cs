@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections;
 using UniRx;
+using System.Security.Cryptography.X509Certificates;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : InstanceSystem<PlayerController>
@@ -51,12 +52,20 @@ public class PlayerController : InstanceSystem<PlayerController>
         _anim = GetComponent<Animator>();
         _defaultSpeed = _moveSpeed.Value;
         _dushSpeed = _moveSpeed.Value + 5;
+        this.ObserveEveryValueChanged(x => x._power.Value).Subscribe(newValue => _power.Value = newValue);
+        this.ObserveEveryValueChanged(x => x._moveSpeed.Value).Subscribe(newValue => { _defaultSpeed = newValue; _dushSpeed = newValue + 5; }) ;
+        this.ObserveEveryValueChanged(x => x._enemyDushPower.Value).Subscribe(newValue => _enemyDushPower.Value = newValue);
     }
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log(_power.Value);
+            Debug.Log(_moveSpeed.Value);
+            Debug.Log(_enemyDushPower.Value);
+        }
         _x = Input.GetAxisRaw("Horizontal");
-        Debug.Log(_x);
         //_anim.SetFloat("Speed", _rb.velocity.magnitude);
         _anim.SetBool("Jump", _isGround); 
         _anim.SetBool("WallJump", _isWallJump);
