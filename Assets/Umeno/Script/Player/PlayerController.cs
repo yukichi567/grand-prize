@@ -114,7 +114,7 @@ public class PlayerController : InstanceSystem<PlayerController>
                 //_rb.velocity = dir * _enemyDushPower;
                 _rb.AddForce(dir * _enemyDushPower.Value, ForceMode2D.Impulse);
                 GetComponent<CapsuleCollider2D>().isTrigger = true;
-                StartCoroutine(EnemtDush());
+                StartCoroutine(EnemyDush());
             }
             else if (_isGround)
             {
@@ -130,18 +130,20 @@ public class PlayerController : InstanceSystem<PlayerController>
         }
         if(Input.GetButtonDown("Fire1"))
         {
-            StartCoroutine(Attack(_attackObject, 0.5f));
+            _anim.Play("attack");
         }
     }
 
-    IEnumerator Attack(GameObject attckArea, float interval)
+    public void AttackStart()
     {
-        attckArea.SetActive(true);
-        yield return new WaitForSeconds(interval);
-        attckArea.SetActive(false);
+        _attackObject.SetActive(true);
+    }
+    public void AttackEnd()
+    {
+        _attackObject.SetActive(false);
     }
     //敵に突進する攻撃　
-    IEnumerator EnemtDush()
+    IEnumerator EnemyDush()
     {
         yield return new WaitForSeconds(0.5f);
         _isEnemyDush = false;
