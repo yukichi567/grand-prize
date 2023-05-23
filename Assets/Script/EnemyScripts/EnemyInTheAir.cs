@@ -45,7 +45,7 @@ public class EnemyInTheAir : EnemyBase
 
         if(_enemyType.HasFlag(EnemyType.LateralMove))
         {
-            float sin = Mathf.Sin(time * _horizonMoveSpeed);
+            float sin = Mathf.Sin(Time.time * _horizonMoveSpeed);
             //transform.positionÇ≈ìÆÇ©ÇµÇΩèÍçá
             transform.position = _StartPosition + new Vector3(sin * _horizonMoveRange, _ChangePosSaveY, 0);
             _ChangePosSaveX = sin * _horizonMoveRange;

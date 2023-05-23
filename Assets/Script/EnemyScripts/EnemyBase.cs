@@ -8,7 +8,7 @@ public class EnemyBase : MonoBehaviour
     protected int _nowHP;
     [SerializeField, Header("Player‚ªæ“¾‚·‚éƒ|ƒCƒ“ƒg")] int _point;
     [SerializeField, Header("UŒ‚—Í")]protected int _attackPower;
-    protected PlayerController _playerController;
+    PlayerController _playerController;
     private void Start()
     {
         _playerController = FindObjectOfType<PlayerController>();
