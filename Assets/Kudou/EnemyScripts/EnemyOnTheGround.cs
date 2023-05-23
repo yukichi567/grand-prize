@@ -7,6 +7,7 @@ public class EnemyOnTheGround : EnemyBase
 {
     Rigidbody2D _rb;
     Animator _anim;
+    SpriteRenderer _spriteRenderer;
     [SerializeField, Header("•às‘¬“x")] float _walkSpeed;
     [SerializeField, Header("ˆÚ“®êŠ")] Transform[] _movePos;
     [SerializeField, Header("ˆÚ“®‚ ‚è‚©")] bool _isMove;
@@ -19,6 +20,7 @@ public class EnemyOnTheGround : EnemyBase
     {
         _rb = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         walkSpeed = _walkSpeed;
     }
 
@@ -36,6 +38,7 @@ public class EnemyOnTheGround : EnemyBase
             if (_stopTimer > 10 + _stopTime)
             {
                 _isMove = true;
+                _stopTimer = 0;
                 
             }
             else if (_stopTimer > 10)
@@ -67,10 +70,12 @@ public class EnemyOnTheGround : EnemyBase
         if(_movePosNumber == 0)
         {
             _movePosNumber = 1;
+            _spriteRenderer.flipX = true;
         }
         else
         {
             _movePosNumber = 0;
+            _spriteRenderer.flipX = false;
         }
     }
 }

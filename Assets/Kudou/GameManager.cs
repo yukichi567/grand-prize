@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : SingletonMonoBehaviour<GameManager>
 {
@@ -21,9 +22,12 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     StageNumber _stageNumber = StageNumber.Stage1;
     /// <summary>現在プレイしている難易度</summary>
     StageDifficulty _stageDifficulty = StageDifficulty.Easy;
+    /// <summary>次遷移するシーンの名前</summary>
+    string _nextSceneName;
     public StageNumber stageNumber { get { return _stageNumber; } set { _stageNumber = value; } }
     public StageDifficulty stageDifficulty { get { return _stageDifficulty; } set { _stageDifficulty = value; } }
     public GameState gameState { get { return _gameState; } set { _gameState = value; } }
+    public string NextSceneName { get { return _nextSceneName; } set { _nextSceneName = value; } }
     
     public float Timer { get { return _timer; }}
     public int Point { get { return _point; }}
@@ -41,11 +45,16 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
             {
                 //ゲームクリア判定になったら
                 case GameState.GameClear:
+                    //次のシーンに遷移
+                    FindObjectOfType<SceneChange>().SceneChanging(_nextSceneName);
+                    //タイムアタック用のタイムを保存
                     LowerTimeSave();
                     TimerReset();
                     break;
                 //ゲームオーバー判定になったら
                 case GameState.GameOver:
+                    //現在のシーンの再リロード
+                    FindObjectOfType<SceneChange>().SceneChanging(SceneManager.GetActiveScene().name);
                     TimerReset();
                     break;
             }
