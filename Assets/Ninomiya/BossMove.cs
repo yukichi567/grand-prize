@@ -22,6 +22,7 @@ public class BossMove : EnemyBase
 
     Animator _anim;
     [SerializeField] int _countAnim = 0; //アニメーションの制御
+    [SerializeField] int _countAnim2 = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -54,7 +55,6 @@ public class BossMove : EnemyBase
         {
             Attack2();
         }
-
     }
     void BossQuaternion()
     {
@@ -104,12 +104,17 @@ public class BossMove : EnemyBase
             _playerPosTmp = playerPos;
             _arrived = false;
             Debug.Log("呼ばれた");
+            _countAnim2 = 0;
         }
         if (_jumpBool == false)
         {
             this.transform.position = Vector3.SmoothDamp(transform.position, new Vector3(_playerPosTmp.x / 2,
             _playerPosTmp.y + 10, 0f), ref _velocity, 0.5f);
             StartCoroutine("JumpAttack");
+            if(_countAnim2 == 0)
+            {
+                StartCoroutine("Attack2Anim");
+            }
         }
     }
     void Attack2()
@@ -140,6 +145,13 @@ public class BossMove : EnemyBase
         _anim.SetBool("Attack", true);
         yield return new WaitForSeconds(2f);
         _anim.SetBool("Attack", false);
+    }
+    IEnumerator Attack2Anim()
+    {
+        _anim.SetBool("Walk", false);
+        _anim.SetBool("Attack2", true);
+        yield return new WaitForSeconds(2f);
+        _anim.SetBool("Attack2", false);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
