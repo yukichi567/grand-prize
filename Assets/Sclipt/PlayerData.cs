@@ -21,7 +21,9 @@ public class PlayerData : ScriptableObject
 
     private void Awake()
     {
-        
+        _power.Value = 1;
+        _speed.Value = 5;
+        _enemyDushPower.Value = 10;
     }
 
 }

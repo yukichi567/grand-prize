@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Collections;
 using UniRx;
 using System.Security.Cryptography.X509Certificates;
+using UnityEngine.Pool;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : InstanceSystem<PlayerController>
 {
+    //ObjectPool<GameObject> pool = new ObjectPool<GameObject>();
     [Header("設置判定のRayに関する数値")]
     [SerializeField, Tooltip("設置判定のRayの長さ")] float _groundRayRange;
     [SerializeField, Tooltip("Groundのレイヤー")] LayerMask _groundLayer;
@@ -20,6 +22,7 @@ public class PlayerController : InstanceSystem<PlayerController>
     Animator _anim;
     Vector3 _enemyPosition;
     GameObject _targetEnemy;
+    ParticleSystem _particle;
     float _x;
     int _defaultSpeed;
     int _dushSpeed;
@@ -35,6 +38,7 @@ public class PlayerController : InstanceSystem<PlayerController>
     bool _isEnemyDush;
 
     public int HP { get =>  _hp; set => _hp = value;}
+    public ReactiveProperty<int> Power { get => _power; }
 
     private void Awake()
     {
@@ -48,6 +52,7 @@ public class PlayerController : InstanceSystem<PlayerController>
     }
     void Start()
     {
+        _particle = GetComponent<ParticleSystem>();
         _rb = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
         _defaultSpeed = _moveSpeed.Value;
@@ -59,16 +64,10 @@ public class PlayerController : InstanceSystem<PlayerController>
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log(_power.Value);
-            Debug.Log(_moveSpeed.Value);
-            Debug.Log(_enemyDushPower.Value);
-        }
         _x = Input.GetAxisRaw("Horizontal");
-        //_anim.SetFloat("Speed", _rb.velocity.magnitude);
-        _anim.SetBool("Jump", _isGround); 
-        _anim.SetBool("WallJump", _isWallJump);
+        _anim.SetFloat("Speed", _rb.velocity.magnitude);
+        _anim.SetBool("IsJump", _isGround); 
+        _anim.SetBool("IsWallJump", _isWallJump);
         //接地判定
         RaycastHit2D hitGround = Physics2D.Raycast(transform.position, Vector2.down, _groundRayRange, (int)_groundLayer);
         Debug.DrawRay(transform.position, Vector2.down * _groundRayRange, Color.red);
@@ -84,6 +83,10 @@ public class PlayerController : InstanceSystem<PlayerController>
             _isGround = false;
         }
 
+        if(_isWallJump)
+        {
+            _particle.Play();
+        }
         //壁の判定
         RaycastHit2D hitWallRight = Physics2D.Raycast(transform.position, Vector2.right, _wallRayRange, _wallLayer);
         Debug.DrawRay(transform.position, Vector2.right * _wallRayRange, Color.blue);
@@ -97,6 +100,7 @@ public class PlayerController : InstanceSystem<PlayerController>
             if (Input.GetButtonDown("Jump"))
             {
                 _isWallJump = true;
+                _particle.Play();
                 _rb.velocity = new Vector2(-1, 1).normalized * _wallJumpPower;
                 FlipX(hitWallRight.normal.x);
             }
@@ -109,6 +113,7 @@ public class PlayerController : InstanceSystem<PlayerController>
             if (Input.GetButtonDown("Jump"))
             {
                 _isWallJump = true;
+                _particle.Play();
                 _rb.velocity = new Vector2(1, 1).normalized * _wallJumpPower;
                 FlipX(hitWallLeft.normal.x);
             }

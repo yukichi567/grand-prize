@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hp: 5
   _power:
-    value: 51
+    value: 1
   _speed:
-    value: 60
+    value: 5
   _jumpPower: 7
   _enemyDushPower:
-    value: 55
-  _wallJumpPower: 10
+    value: 10
+  _wallJumpPower: 17
