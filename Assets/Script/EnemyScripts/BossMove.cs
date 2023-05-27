@@ -9,14 +9,13 @@ public class BossMove : EnemyBase
     [SerializeField] float _moveSpeed; //bossの移動速度
     [SerializeField] bool _arrived; //攻撃の際、一回だけ情報を取るためのbool
     [SerializeField] float _stopDistance; //playerに近づく距離
-    Vector2 _playerPosTmp; //playerの位置取得
-    Vector2 _bosspos; //bossの位置取得
+    Transform _playerPosTmp; //playerの位置取得
+    Vector3 _bosspos; //bossの位置取得
     float _distance; //bossとplayerの距離
     Vector3 _velocity = Vector3.zero; //jump移動の速度初期化
     [SerializeField] bool _jumpBool = false;
     [SerializeField] Transform[] _enemyTransform; //敵を償還する場所
     [SerializeField] GameObject[] _enemys; //敵を入れる
-
     [SerializeField] bool _attackBool = false;
     int numRandom;
 
@@ -27,7 +26,7 @@ public class BossMove : EnemyBase
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _playerPosTmp = GameObject.Find("Player").transform.position;
+        _playerPosTmp = FindObjectOfType<Player>().transform;
         _anim = GetComponent<Animator>();
     }
 
@@ -58,9 +57,9 @@ public class BossMove : EnemyBase
     }
     void BossQuaternion()
     {
-        Vector2 playerPos = GameObject.Find("Player").transform.position;
+        Vector2 playerPos = FindObjectOfType<Player>().gameObject.transform.position;
         Vector2 bossPos = this.transform.position;
-        if (playerPos.x < bossPos.x) //Bossの向き変更
+        if (_playerPosTmp.position.x < bossPos.x) //Bossの向き変更
         {
             this.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
         }
@@ -74,16 +73,17 @@ public class BossMove : EnemyBase
         if (_arrived == true)
         {
             _bosspos = this.transform.position;
-            Vector2 playerPos = GameObject.Find("Player").transform.position;
-            _playerPosTmp = playerPos;
+            //Vector2 playerPos = FindObjectOfType<Player>().gameObject.transform.position;
+            //_playerPosTmp = playerPos;
             _arrived = false;
             Debug.Log("呼ばれた");
             _countAnim = 0;
         }
         _anim.SetBool("Walk",true);
-        Vector2 dir = (_playerPosTmp - _bosspos).normalized;
+        Vector3 dir = (new Vector3(_playerPosTmp.position.x, 0) - _bosspos).normalized;
         _rb.velocity = dir * _moveSpeed;
-        _distance = Vector2.Distance(this.transform.position, GameObject.Find("Player").transform.position);
+        //_distance = Vector2.Distance(this.transform.position, FindObjectOfType<Player>().gameObject.transform.position);
+        _distance = Vector2.Distance(this.transform.position, _playerPosTmp.position);
         if (_distance < _stopDistance)
         {
             _rb.velocity = Vector2.zero;
@@ -100,16 +100,16 @@ public class BossMove : EnemyBase
         if (_arrived == true)
         {
             _bosspos = this.transform.position;
-            Vector2 playerPos = GameObject.Find("Player").transform.position;
-            _playerPosTmp = playerPos;
+            //Vector2 playerPos = FindObjectOfType<Player>().gameObject.transform.position;
+            //_playerPosTmp = playerPos;
             _arrived = false;
             Debug.Log("呼ばれた");
             _countAnim2 = 0;
         }
         if (_jumpBool == false)
         {
-            this.transform.position = Vector3.SmoothDamp(transform.position, new Vector3(_playerPosTmp.x / 2,
-            _playerPosTmp.y + 10, 0f), ref _velocity, 0.5f);
+            this.transform.position = Vector3.SmoothDamp(transform.position, new Vector3(_playerPosTmp.position.x,
+            _playerPosTmp.position.y + 10, 0f), ref _velocity, 0.5f);
             StartCoroutine("JumpAttack");
             if(_countAnim2 == 0)
             {
@@ -157,8 +157,9 @@ public class BossMove : EnemyBase
     {
         if(collision.gameObject.tag == "Player")
         {
-            int playerHp = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().HP;
-            playerHp -= _attackPower;
+            //int playerHp = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().HP;
+            //playerHp -= _attackPower;
+            FindObjectOfType<Player>().Damage(_attackPower);
         }
     }
 }

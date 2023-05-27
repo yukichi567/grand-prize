@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.IO;
 using UniRx;
-using static UnityEngine.ParticleSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player : InstanceSystem<Player>
@@ -30,6 +29,7 @@ public class Player : InstanceSystem<Player>
     ReactiveProperty<int> _moveSpeed;
     ReactiveProperty<float> _dushAttackSpeed;
     int _hp;
+    int _jumpCount;
     float _x;
     float _jumpPower;
     float _wallJumpPower;
@@ -62,6 +62,7 @@ public class Player : InstanceSystem<Player>
         //キャラの左右移動(壁ジャンプの時は左右移動しない)
         if (Input.GetButton("Horizontal") && _state != PlayerState.DushAttack)
         {
+            Debug.Log("動いてる");
             //ダッシュと通常のスピードを変える
             if (Input.GetButton("Fire3"))
             {
@@ -79,7 +80,6 @@ public class Player : InstanceSystem<Player>
         _anim.SetFloat("Speed", _rb.velocity.magnitude);
         _anim.SetBool("IsJump", _state == PlayerState.Jump);
         _anim.SetBool("IsWallJump", _state == PlayerState.WallJump);
-        Debug.Log(_state);
         _x = Input.GetAxisRaw("Horizontal");
         RaycastHit2D hitGround = Physics2D.Raycast(transform.position, Vector2.down, _groundRayRange, (int)_groundLayer);
         Debug.DrawRay(transform.position, Vector2.down * _groundRayRange, Color.red);
@@ -87,6 +87,7 @@ public class Player : InstanceSystem<Player>
         {
             _state = PlayerState.Ground;
             GetComponent<CapsuleCollider2D>().isTrigger = false;
+            _jumpCount = 0;
         }
         RaycastHit2D hitWallRight = Physics2D.Raycast(transform.position, Vector2.right, _wallRayRange, _wallLayer);
         Debug.DrawRay(transform.position, Vector2.right * _wallRayRange, Color.blue);
@@ -118,8 +119,9 @@ public class Player : InstanceSystem<Player>
                 FlipX(hitWallLeft.normal.x);
             }
         }
-        if(_state == PlayerState.Ground && Input.GetButtonDown("Jump"))
+        if((_jumpCount < 1 || _state == PlayerState.Ground) && Input.GetButtonDown("Jump"))
         {
+            _jumpCount++;
             _rb.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
             _state = PlayerState.Jump;
         }
@@ -152,7 +154,7 @@ public class Player : InstanceSystem<Player>
     private void OnTriggerExit2D(Collider2D collision)
     {
         _cursor.SetActive(false);
-        _state = PlayerState.EnemyRock;
+        //_state = PlayerState.EnemyRock;
     }
     public void Damage(int damage)
     {

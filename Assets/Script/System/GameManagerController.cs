@@ -5,9 +5,11 @@ using UnityEngine;
 public class GameManagerController : MonoBehaviour
 {
     /// <summary>現在のゲームステージシーン</summary>
-    [SerializeField,Header("現在のゲームステージシーン")]GameManager.StageNumber _stageNumber;
+    [SerializeField, Header("現在のゲームステージシーン")] GameManager.StageNumber _stageNumber;
     /// <summary>次遷移するシーンの名前</summary>
     [SerializeField, Header("次遷移するシーンの名前")] string _nextSceneName;
+    [SerializeField] string[] _sceneNames;
+    [SerializeField] SceneName _nextScene;
     GameManager _gameManager;
     
     void Start()
@@ -15,8 +17,9 @@ public class GameManagerController : MonoBehaviour
         _gameManager = GameManager.Instance;
         _gameManager.stageNumber = _stageNumber;
         _gameManager.NextSceneName = _nextSceneName;
+        ScenSquare.Instance.SceneName = _sceneNames[(int)_nextScene];
         //現在のシーンがゲームシーンだった時
-        if(_stageNumber != GameManager.StageNumber.None)
+        if (_stageNumber != GameManager.StageNumber.None)
         {
             //状態をゲーム中に変更
             _gameManager.gameState = GameManager.GameState.Game;
@@ -30,5 +33,16 @@ public class GameManagerController : MonoBehaviour
         }
     }
 
+    enum SceneName
+    {
+        Title,
+        Stage1,
+        Stage2,
+        Stage3,
+        Boss,
+        Clear,
+        GameOver,
+        PlayerStrengthen,
+    }
     
 }

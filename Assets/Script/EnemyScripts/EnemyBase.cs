@@ -32,8 +32,7 @@ public class EnemyBase : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            //Player‚ÌHP[UŒ‚—Í
-            Attack();
+            _playerController.Damage(_attackPower);
         }
     }
 
