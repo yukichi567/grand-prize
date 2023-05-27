@@ -12,9 +12,9 @@ public class TimePointUIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _timerText = transform.GetChild(0).GetComponent<Text>();
+        _timerText = transform.GetChild(0).GetChild(0).GetComponent<Text>();
         _lowTimerText = transform.GetChild(1).GetComponent<Text>();
-        _pointText = transform.GetChild(2).GetComponent<Text>();
+        _pointText = transform.GetChild(2).GetChild(0).GetComponent<Text>();
         gameManager = GameManager.Instance;
         if(gameManager.LowerTimeLoad() == 0)
         {
@@ -30,6 +30,6 @@ public class TimePointUIManager : MonoBehaviour
     void Update()
     {
         _timerText.text = $"{gameManager.Timer.ToString("F2")}";
-        _pointText.text = $"ポイント：{gameManager.Point.ToString("d5")}";
+        _pointText.text = $"{gameManager.Point.ToString("d5")}";
     }
 }

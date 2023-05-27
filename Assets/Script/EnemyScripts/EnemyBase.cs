@@ -8,10 +8,10 @@ public class EnemyBase : MonoBehaviour
     protected int _nowHP;
     [SerializeField, Header("Playerが取得するポイント")] int _point;
     [SerializeField, Header("攻撃力")]protected int _attackPower;
-    PlayerController _playerController;
-    private void Start()
+    Player _playerController;
+    private void Awake()
     {
-        _playerController = FindObjectOfType<PlayerController>();
+        _playerController = FindObjectOfType<Player>();
         _nowHP = _maxHP;
     }
     /// <summary>EnemyのHP最大値を増やす関数</summary>

@@ -46,7 +46,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
                 //ゲームクリア判定になったら
                 case GameState.GameClear:
                     //次のシーンに遷移
-                   // FindObjectOfType<SceneChange>().SceneChanging(_nextSceneName);
+                   FindObjectOfType<ScenSquare>().ScenChange(_nextSceneName);
                     //タイムアタック用のタイムを保存
                     LowerTimeSave();
                     TimerReset();
@@ -54,7 +54,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
                 //ゲームオーバー判定になったら
                 case GameState.GameOver:
                     //現在のシーンの再リロード
-                    //FindObjectOfType<SceneChange>().SceneChanging(SceneManager.GetActiveScene().name);
+                    FindObjectOfType<ScenSquare>().ScenChange(SceneManager.GetActiveScene().name);
                     TimerReset();
                     break;
             }

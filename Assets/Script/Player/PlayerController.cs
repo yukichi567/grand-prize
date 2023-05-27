@@ -23,14 +23,14 @@ public class PlayerController : InstanceSystem<PlayerController>
     Vector3 _enemyPosition;
     GameObject _targetEnemy;
     ParticleSystem _particle;
+    ReactiveProperty<int> _power;
+    ReactiveProperty<int> _moveSpeed;
+    ReactiveProperty<float> _enemyDushPower;
     float _x;
     int _defaultSpeed;
     int _dushSpeed;
     int _hp;
-    ReactiveProperty<int> _power;
-    ReactiveProperty<int> _moveSpeed;
     float _jumpPower;
-    ReactiveProperty<float> _enemyDushPower;
     float _wallJumpPower;
     bool _isGround;
     bool _isWallJump;
@@ -136,12 +136,12 @@ public class PlayerController : InstanceSystem<PlayerController>
             }
         }
         float enemyDistance = Vector3.Distance(_enemyPosition, transform.position);
-        if(enemyDistance < 0.5f)
-        {
-            Debug.Log("敵を倒した");
-            _targetEnemy.GetComponent<EnemyBase>().Damage(_power.Value * 2);
-            _rb.velocity = Vector3.zero;
-        }
+        //if(enemyDistance < 0.5f && _isEnemyRock)
+        //{
+        //    Debug.Log("敵を倒した");
+        //    _targetEnemy.GetComponent<EnemyBase>().Damage(_power.Value * 2);
+        //    _rb.velocity = Vector3.zero;
+        //}
         if(Input.GetButtonDown("Fire1"))
         {
             _anim.Play("attack");
@@ -203,6 +203,22 @@ public class PlayerController : InstanceSystem<PlayerController>
         }
     }
 
+    public enum PlayerState
+    {
+        Jump,
+        WallJump,
+        EnemyRock,
+        DushAttack,
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "Enemy")
+        {
+            _targetEnemy.GetComponent<EnemyBase>().Damage(_power.Value * 5);
+            //_rb.velocity = Vector3.zero;
+        }
+    }
     private void OnTriggerStay2D(Collider2D collision)
     {
         //敵が一定距離にいる場合敵の位置を保存する
