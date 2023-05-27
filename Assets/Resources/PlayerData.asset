@@ -17,7 +17,7 @@ MonoBehaviour:
     value: 1
   _speed:
     value: 5
-  _jumpPower: 7
+  _jumpPower: 10
   _enemyDushPower:
     value: 10
   _wallJumpPower: 17
