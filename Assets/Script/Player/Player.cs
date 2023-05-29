@@ -64,6 +64,7 @@ public class Player : InstanceSystem<Player>
         //キャラの左右移動(壁ジャンプの時は左右移動しない)
         if (Input.GetButton("Horizontal") && _state != PlayerState.DushAttack)
         {
+            //AudioManager.Instance.PlaySE(AudioManager.SeSoundData.SE.FootSteps);
             Debug.Log("動いてる");
             //ダッシュと通常のスピードを変える
             if (Input.GetButton("Fire3"))
@@ -154,6 +155,7 @@ public class Player : InstanceSystem<Player>
         }
         if (Input.GetButtonDown("Fire1"))
         {
+            AudioManager.Instance.PlaySE(AudioManager.SeSoundData.SE.Fire);
             int random = Random.Range(0, 121);
             _anim.Play("attack");
             Instantiate(_attackEffect, _attackArea.transform.position, Quaternion.Euler(new Vector3(0, 0, random * 30)));

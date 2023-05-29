@@ -14,6 +14,7 @@ public class ScenSquare : MonoBehaviour
     }
     public void ScenChange(string changeScene)
     {
+        AudioManager.Instance.PlaySE(AudioManager.SeSoundData.SE.Button);
         Debug.Log("ƒV[ƒ“ˆÚ“®");
         if (changeScene != "")
         {

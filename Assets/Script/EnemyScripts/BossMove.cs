@@ -57,7 +57,7 @@ public class BossMove : EnemyBase
     }
     void BossQuaternion()
     {
-        Vector2 playerPos = FindObjectOfType<Player>().gameObject.transform.position;
+        //Vector2 playerPos = FindObjectOfType<Player>().gameObject.transform.position;
         Vector2 bossPos = this.transform.position;
         if (_playerPosTmp.position.x < bossPos.x) //Boss‚ÌŒü‚«•ÏX
         {

@@ -16,7 +16,7 @@ public class BossStageJudge : MonoBehaviour
     {
         if (FindObjectsOfType<BossMove>().Length < 1)
         {
-            FindObjectOfType<ScenSquare>().ScenChange("Title");
+            FindObjectOfType<ScenSquare>().ScenChange("Clear");
         }
     }
 }
