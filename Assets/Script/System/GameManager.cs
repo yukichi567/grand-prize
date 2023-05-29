@@ -46,6 +46,8 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
                 //ゲームクリア判定になったら
                 case GameState.GameClear:
                     //次のシーンに遷移
+                    Debug.Log("呼んだ?");
+                    gameState = GameState.PlayerStrengthen;
                    FindObjectOfType<ScenSquare>().ScenChange(_nextSceneName);
                     //タイムアタック用のタイムを保存
                     LowerTimeSave();
@@ -54,7 +56,9 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
                 //ゲームオーバー判定になったら
                 case GameState.GameOver:
                     //現在のシーンの再リロード
-                    FindObjectOfType<ScenSquare>().ScenChange(SceneManager.GetActiveScene().name);
+                    Resources.Load<PlayerData>("PlayerData").NextScene = SceneManager.GetActiveScene().name;
+                    _gameState = GameState.Game;
+                    FindObjectOfType<ScenSquare>().ScenChange("GameOver");
                     TimerReset();
                     break;
             }
@@ -150,6 +154,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         GameOver,
         /// <summary>ゲームクリア</summary>
         GameClear,
+        PlayerStrengthen,
     }
     /// <summary>現在プレイしているゲームのステージNumber管理用enum</summary>
     public enum StageNumber
@@ -159,6 +164,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         Stage1,
         Stage2,
         Stage3,
+        PlayerStrengthen,
     }
 
     /// <summary>難易度調整</summary>

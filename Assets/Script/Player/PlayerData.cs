@@ -12,6 +12,9 @@ public class PlayerData : ScriptableObject
     [SerializeField, Tooltip("プレイヤーの突進力")] ReactiveProperty<float> _enemyDushPower;
     [SerializeField, Tooltip("プレイヤーの壁ジャンプ")] float _wallJumpPower;
 
+    string _sceneName;
+
+    public string NextScene { get => _sceneName; set => _sceneName = value; }
     public int MaxHp { get => _hp;}
     public ReactiveProperty<int> MaxPower { get => _power; set => _power = value; }
     public ReactiveProperty<int> MaxSpeed { get => _speed; set => _speed = value; }
@@ -19,11 +22,11 @@ public class PlayerData : ScriptableObject
     public ReactiveProperty<float> EnemyDushPower { get => _enemyDushPower; set => _enemyDushPower = value; }
     public float WallJumpPower { get => _wallJumpPower; }
 
-    private void Awake()
-    {
-        _power.Value = 1;
-        _speed.Value = 5;
-        _enemyDushPower.Value = 10;
-    }
+    //private void Awake()
+    //{
+    //    _power.Value = 1;
+    //    _speed.Value = 5;
+    //    _enemyDushPower.Value = 10;
+    //}
 
 }

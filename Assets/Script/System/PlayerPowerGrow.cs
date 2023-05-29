@@ -15,9 +15,9 @@ public class PlayerPowerGrow : PlayerGrowBase, IPlayerGrow
     protected override void Grow()
     {
         PlayerData data = Resources.Load<PlayerData>("PlayerData");
-        data.MaxPower.Value += 10;
         _powerGrowCount++;
         _power = _stats[_powerGrowCount];
+        data.MaxPower.Value = (int)_power;
         Debug.Log($"ÉpÉèÅ[Ç™{_power}Ç…Ç»ÇËÇ‹ÇµÇΩÅB");
     }
 

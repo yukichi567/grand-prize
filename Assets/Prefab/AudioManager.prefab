@@ -191,10 +191,10 @@ MonoBehaviour:
     AudioClip: {fileID: 0}
     Volume: 1
   - Se: 0
-    AudioClip: {fileID: 0}
+    AudioClip: {fileID: 8300000, guid: 16a5192a1713f6d45a0670efb3dc8e2b, type: 3}
     Volume: 1
   - Se: 0
-    AudioClip: {fileID: 0}
+    AudioClip: {fileID: 8300000, guid: d641918ff7b1ee444acb5de9d69897b8, type: 3}
     Volume: 1
   - Se: 0
     AudioClip: {fileID: 0}

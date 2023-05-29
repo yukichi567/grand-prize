@@ -133,7 +133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHP: 10
   _point: 10
-  _attackPower: 10
+  _attackPower: 5
   _enemyType: 1
   _verticalMoveSpeed: 1
   _horizonMoveSpeed: 0.2
