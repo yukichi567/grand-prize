@@ -20,6 +20,7 @@ public class Player : InstanceSystem<Player>
     [Header("攻撃に関するオブジェクト")]
     [SerializeField] GameObject _attackArea;
     [SerializeField] GameObject _cursor;
+    [SerializeField] GameObject _attackEffect;
     Rigidbody2D _rb;
     Animator _anim;
     Vector3 _enemyPosition;
@@ -33,6 +34,7 @@ public class Player : InstanceSystem<Player>
     float _x;
     float _jumpPower;
     float _wallJumpPower;
+    bool _isJump;
 
     public int HP { get => _hp; set => _hp = value; }
     public ReactiveProperty<int> Power { get => _power; }
@@ -73,11 +75,29 @@ public class Player : InstanceSystem<Player>
                 _rb.velocity = new Vector2(_x * _moveSpeed.Value, _rb.velocity.y);
             }
             FlipX(_x);
+            if(_isJump)
+            {
+                _state = PlayerState.WallJump;
+                _jumpCount++;
+                _rb.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
+                _isJump = false;
+            }
         }
     }
     void Update()
     {
-        _anim.SetFloat("Speed", _rb.velocity.magnitude);
+        if(_state == PlayerState.WallJump)
+        {
+            _rb.mass = 2.0f;
+        }
+        else
+        {
+            _rb.mass = 1.5f;
+        }
+        if (_state == PlayerState.Ground)
+        {
+            _anim.SetFloat("Speed", _rb.velocity.magnitude);
+        }
         _anim.SetBool("IsJump", _state == PlayerState.Jump);
         _anim.SetBool("IsWallJump", _state == PlayerState.WallJump);
         _x = Input.GetAxisRaw("Horizontal");
@@ -121,9 +141,8 @@ public class Player : InstanceSystem<Player>
         }
         if((_jumpCount < 1 || _state == PlayerState.Ground) && Input.GetButtonDown("Jump"))
         {
-            _jumpCount++;
-            _rb.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
             _state = PlayerState.Jump;
+            _isJump = true;
         }
         if(_state == PlayerState.EnemyRock && Input.GetButtonDown("Fire2"))
         {
@@ -135,7 +154,9 @@ public class Player : InstanceSystem<Player>
         }
         if (Input.GetButtonDown("Fire1"))
         {
+            int random = Random.Range(0, 121);
             _anim.Play("attack");
+            Instantiate(_attackEffect, _attackArea.transform.position, Quaternion.Euler(new Vector3(0, 0, random * 30)));
         }
     }
     private void OnTriggerStay2D(Collider2D collision)
@@ -161,6 +182,7 @@ public class Player : InstanceSystem<Player>
         _hp -= damage;
         if (_hp < 0)
         {
+            GameManager.Instance.gameState = GameManager.GameState.GameOver;
             Destroy(this.gameObject);
         }
     }

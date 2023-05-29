@@ -45,3 +45,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _stageNumber: 1
+  _nextSceneName: PlayerStrengthen
+  _sceneNames:
+  - Title
+  - Stage1
+  - Stage2
+  - Stage3
+  - Boss
+  - Clear
+  - GameOver
+  - PlayerStrengthen
+  _nextScene: 2

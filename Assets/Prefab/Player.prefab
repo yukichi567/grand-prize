@@ -5114,6 +5114,7 @@ MonoBehaviour:
   _wallRayRange: 1
   _attackArea: {fileID: 7833926588644880492}
   _cursor: {fileID: 2951470945334410635}
+  _attackEffect: {fileID: 2752334497899640170, guid: 4542000bb2529e44997bf31c44cc5ddb, type: 3}
 --- !u!1 &7833926588644880492
 GameObject:
   m_ObjectHideFlags: 0

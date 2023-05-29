@@ -410,13 +410,14 @@ GameObject:
   m_Component:
   - component: {fileID: 248521023}
   - component: {fileID: 248521022}
+  - component: {fileID: 248521024}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &248521022
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -458,6 +459,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &248521024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 248521021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c1a6d69c62924845bc4a9973094c0ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &269035621
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -654,8 +667,8 @@ MonoBehaviour:
   m_ZDamping: 0
   m_TargetMovementOnly: 1
   m_ScreenX: 0.5
-  m_ScreenY: 0.5
-  m_CameraDistance: 10
+  m_ScreenY: 0
+  m_CameraDistance: 15
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
   m_DeadZoneDepth: 0
@@ -993,7 +1006,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7482887144763445758, guid: 2b0df27e2014a854287422c9618e31bd, type: 3}
       propertyPath: _maxHP
-      value: 100
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7482887144763445758, guid: 2b0df27e2014a854287422c9618e31bd, type: 3}
       propertyPath: _attackPower
@@ -1131,7 +1144,7 @@ MonoBehaviour:
   - m_Script
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
-  m_Priority: 11
+  m_Priority: 15
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 1716631125}
@@ -1161,7 +1174,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 530187003}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16.046806, y: 10.171397, z: -10}
+  m_LocalPosition: {x: 16.046806, y: 1.5111437, z: -15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1859,7 +1872,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 979074375}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16.046806, y: 10.171397, z: -10}
+  m_LocalPosition: {x: 21.059729, y: 12.2780695, z: -15}
   m_LocalScale: {x: 1.698, y: 1.698, z: 1.698}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2547,48 +2560,80 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 7274479351057487008, guid: be888b20d1e05344bb13c677332e59e2, type: 3}
+      propertyPath: _nextScene
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7274479351057487008, guid: be888b20d1e05344bb13c677332e59e2, type: 3}
+      propertyPath: _nextStage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7274479351057487008, guid: be888b20d1e05344bb13c677332e59e2, type: 3}
       propertyPath: _stageNumber
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7274479351057487008, guid: be888b20d1e05344bb13c677332e59e2, type: 3}
       propertyPath: _nextSceneName
-      value: PlayerStrengthen
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7274479351057487008, guid: be888b20d1e05344bb13c677332e59e2, type: 3}
       propertyPath: _sceneNames.Array.size
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 7274479351057487008, guid: be888b20d1e05344bb13c677332e59e2, type: 3}
-      propertyPath: _sceneNames.Array.data[0]
-      value: Title
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 7274479351057487008, guid: be888b20d1e05344bb13c677332e59e2, type: 3}
       propertyPath: _sceneNames.Array.data[1]
-      value: Stage1
+      value: Stage1Easy
       objectReference: {fileID: 0}
     - target: {fileID: 7274479351057487008, guid: be888b20d1e05344bb13c677332e59e2, type: 3}
       propertyPath: _sceneNames.Array.data[2]
-      value: Stage2
+      value: Stage2Easy
       objectReference: {fileID: 0}
     - target: {fileID: 7274479351057487008, guid: be888b20d1e05344bb13c677332e59e2, type: 3}
       propertyPath: _sceneNames.Array.data[3]
-      value: Stage3
+      value: Stage3Easy
       objectReference: {fileID: 0}
     - target: {fileID: 7274479351057487008, guid: be888b20d1e05344bb13c677332e59e2, type: 3}
       propertyPath: _sceneNames.Array.data[4]
-      value: Boss
-      objectReference: {fileID: 0}
-    - target: {fileID: 7274479351057487008, guid: be888b20d1e05344bb13c677332e59e2, type: 3}
-      propertyPath: _sceneNames.Array.data[5]
       value: Clear
       objectReference: {fileID: 0}
     - target: {fileID: 7274479351057487008, guid: be888b20d1e05344bb13c677332e59e2, type: 3}
-      propertyPath: _sceneNames.Array.data[6]
+      propertyPath: _sceneNames.Array.data[5]
       value: GameOver
       objectReference: {fileID: 0}
     - target: {fileID: 7274479351057487008, guid: be888b20d1e05344bb13c677332e59e2, type: 3}
+      propertyPath: _sceneNames.Array.data[6]
+      value: Stage1Normal
+      objectReference: {fileID: 0}
+    - target: {fileID: 7274479351057487008, guid: be888b20d1e05344bb13c677332e59e2, type: 3}
       propertyPath: _sceneNames.Array.data[7]
-      value: PlayerStrengthen
+      value: Stage2Normal
+      objectReference: {fileID: 0}
+    - target: {fileID: 7274479351057487008, guid: be888b20d1e05344bb13c677332e59e2, type: 3}
+      propertyPath: _sceneNames.Array.data[8]
+      value: Stage3Normal
+      objectReference: {fileID: 0}
+    - target: {fileID: 7274479351057487008, guid: be888b20d1e05344bb13c677332e59e2, type: 3}
+      propertyPath: _sceneNames.Array.data[9]
+      value: Stage1Hard
+      objectReference: {fileID: 0}
+    - target: {fileID: 7274479351057487008, guid: be888b20d1e05344bb13c677332e59e2, type: 3}
+      propertyPath: _sceneNames.Array.data[10]
+      value: Stage2Hard
+      objectReference: {fileID: 0}
+    - target: {fileID: 7274479351057487008, guid: be888b20d1e05344bb13c677332e59e2, type: 3}
+      propertyPath: _sceneNames.Array.data[11]
+      value: Stage3Hard
+      objectReference: {fileID: 0}
+    - target: {fileID: 7274479351057487008, guid: be888b20d1e05344bb13c677332e59e2, type: 3}
+      propertyPath: _sceneNames.Array.data[12]
+      value: BossEasy
+      objectReference: {fileID: 0}
+    - target: {fileID: 7274479351057487008, guid: be888b20d1e05344bb13c677332e59e2, type: 3}
+      propertyPath: _sceneNames.Array.data[13]
+      value: BossNormal
+      objectReference: {fileID: 0}
+    - target: {fileID: 7274479351057487008, guid: be888b20d1e05344bb13c677332e59e2, type: 3}
+      propertyPath: _sceneNames.Array.data[14]
+      value: BossHard
       objectReference: {fileID: 0}
     - target: {fileID: 7274479351057487009, guid: be888b20d1e05344bb13c677332e59e2, type: 3}
       propertyPath: m_RootOrder
@@ -2888,6 +2933,8 @@ PlayableDirector:
     value: {fileID: 530187003}
   - key: {fileID: 7282036083696650284, guid: dd3ab2387b2a68144877391682f75274, type: 2}
     value: {fileID: 604287035}
+  - key: {fileID: 3746839273478011955, guid: dd3ab2387b2a68144877391682f75274, type: 2}
+    value: {fileID: 248521021}
   m_ExposedReferences:
     m_References:
     - a6504fdebe4d41042b2e75a5b00f77e1: {fileID: 604287036}
@@ -3437,7 +3484,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -99
   m_Sprite: {fileID: 21300000, guid: f91fc7bac1aaeea478808dd7c47307e5, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.7216981, g: 0.973901, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
