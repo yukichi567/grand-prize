@@ -1006,7 +1006,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7482887144763445758, guid: 2b0df27e2014a854287422c9618e31bd, type: 3}
       propertyPath: _maxHP
-      value: 1
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 7482887144763445758, guid: 2b0df27e2014a854287422c9618e31bd, type: 3}
+      propertyPath: _point
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 7482887144763445758, guid: 2b0df27e2014a854287422c9618e31bd, type: 3}
       propertyPath: _attackPower

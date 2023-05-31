@@ -1006,11 +1006,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7482887144763445758, guid: 2b0df27e2014a854287422c9618e31bd, type: 3}
       propertyPath: _maxHP
-      value: 1
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7482887144763445758, guid: 2b0df27e2014a854287422c9618e31bd, type: 3}
+      propertyPath: _point
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7482887144763445758, guid: 2b0df27e2014a854287422c9618e31bd, type: 3}
       propertyPath: _attackPower
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7482887145255000005, guid: 2b0df27e2014a854287422c9618e31bd, type: 3}
       propertyPath: m_Size.x

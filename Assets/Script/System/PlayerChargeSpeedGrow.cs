@@ -14,9 +14,8 @@ public class PlayerChargeSpeedGrow : PlayerGrowBase
 
     protected override void Grow()
     {
-        PlayerData data = Resources.Load<PlayerData>("PlayerData");
         _chargeGrowCount++;
-        data.EnemyDushPower.Value = _stats[_chargeGrowCount];
+        FindObjectOfType<GameManager>().DushAttack.Value = _stats[_chargeGrowCount];
         Debug.Log($"突進スピードが{_chargeSpeed}になりました。");
     }
 

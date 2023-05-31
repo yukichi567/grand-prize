@@ -15,9 +15,8 @@ public class PlayerSpeedGrow : PlayerGrowBase
 
     protected override void Grow()
     {
-        PlayerData data = Resources.Load<PlayerData>("PlayerData");
         _speedGrowCount++;
-        data.MaxSpeed.Value = (int)_stats[_speedGrowCount];
+        FindObjectOfType<GameManager>().Speed.Value = (int)_stats[_speedGrowCount];
         Debug.Log($"スピードが{_speed}になりました。");
     }
 
