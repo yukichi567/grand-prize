@@ -25,6 +25,10 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
     [SerializeField]
     float _seMasterVolume = 1;
 
+    private void Awake()
+    {
+        base.Awake();
+    }
     /// <summary>
     /// BGM‚ğÄ¶‚·‚é‚æ‚¤‚É‚·‚é
     /// </summary>

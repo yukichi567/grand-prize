@@ -162,9 +162,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c3a1dbb9d246a44c8cdb15475ed0b13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHP: 40
+  _maxHP: 100
   _point: 100
-  _attackPower: 10
+  _attackPower: 0
   _walkSpeed: 10
   _movePos:
   - {fileID: 8580774043741413229}

@@ -8,7 +8,7 @@ public class AttackEffect : MonoBehaviour
         EnemyBase enemyScript = collision.gameObject.GetComponent<EnemyBase>();
         if (enemyScript)
         {
-            int playerPower = FindObjectOfType<Player>().Power.Value;
+            int playerPower = FindObjectOfType<Player>().Power;
             enemyScript.Damage(playerPower * _damege);
             Debug.Log(playerPower * _damege);
         }

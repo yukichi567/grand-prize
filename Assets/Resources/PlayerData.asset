@@ -13,11 +13,8 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   _hp: 20
-  _power:
-    value: 1
-  _speed:
-    value: 5
+  _power: 2
+  _speed: 5
   _jumpPower: 8
-  _enemyDushPower:
-    value: 20
-  _wallJumpPower: 17
+  _enemyDushPower: 10
+  _wallJumpPower: 13

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UniRx;
+using System.Linq;
 
 public class GameManager : SingletonMonoBehaviour<GameManager>
 {
@@ -13,7 +15,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     /// <summary>ステージクリアまでにかかった時間用変数</summary>
     float _timer;
     /// <summary>Player強化のためのPoint変数</summary>
-    int _point = 500;
+    int _point = 10;
     /// <summary>各ステージのクリア時間の最小値を保存する用のDictinary</summary>
     Dictionary<StageNumber, float> _gameLowerTime = new Dictionary<StageNumber, float>();
     /// <summary>現在のゲーム状態</summary>
@@ -24,6 +26,14 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     StageDifficulty _stageDifficulty = StageDifficulty.Easy;
     /// <summary>次遷移するシーンの名前</summary>
     string _nextSceneName;
+    ReactiveProperty<int> _power = new ReactiveProperty<int>(2);
+    ReactiveProperty<int> _speed = new ReactiveProperty<int>(5);
+    ReactiveProperty<float> _dushAttack = new ReactiveProperty<float>(10f);
+    Player _playerScript;
+
+    public ReactiveProperty<int> Power { get => _power; set => _power = value; }
+    public ReactiveProperty<int> Speed { get => _speed; set => _speed = value; }
+    public ReactiveProperty<float> DushAttack { get => _dushAttack; set => _dushAttack = value; }
     public StageNumber stageNumber { get { return _stageNumber; } set { _stageNumber = value; } }
     public StageDifficulty stageDifficulty { get { return _stageDifficulty; } set { _stageDifficulty = value; } }
     public GameState gameState { get { return _gameState; } set { _gameState = value; } }
@@ -31,9 +41,25 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     
     public float Timer { get { return _timer; }}
     public int Point { get { return _point; }}
+    private void Awake()
+    {
+        base.Awake();
+        _playerScript = FindObjectOfType<Player>();
+    }
+
+    private void Start()
+    {
+        this.ObserveEveryValueChanged(x => x._power).Subscribe(newValue => _playerScript.Power = newValue.Value);
+        this.ObserveEveryValueChanged(x => x._speed).Subscribe(newValue => _playerScript.Speed = newValue.Value);
+        this.ObserveEveryValueChanged(x => x._dushAttack).Subscribe(newValue => _playerScript.DushAttack = newValue.Value);
+    }
     private void Update()
     {
+        _playerScript.Power = _power.Value;
+        _playerScript.Speed = _speed.Value;
+        _playerScript.DushAttack = _dushAttack.Value;
         //ゲーム中だったら
+        Debug.Log($"Power = {_power}, Speed = {_speed}, DashPower = {_dushAttack}");
         if (gameState == GameState.Game)
         {
             _timer += Time.deltaTime;

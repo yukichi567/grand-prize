@@ -26,9 +26,9 @@ public class Player : InstanceSystem<Player>
     Vector3 _enemyPosition;
     ParticleSystem _particle;
     PlayerState _state = PlayerState.Ground;
-    ReactiveProperty<int> _power;
-    ReactiveProperty<int> _moveSpeed;
-    ReactiveProperty<float> _dushAttackSpeed;
+    int _power;
+    int _moveSpeed;
+    float  _dushAttackSpeed;
     int _hp;
     int _jumpCount;
     float _x;
@@ -37,17 +37,16 @@ public class Player : InstanceSystem<Player>
     bool _isJump;
 
     public int HP { get => _hp; set => _hp = value; }
-    public ReactiveProperty<int> Power { get => _power; }
+    public int Power { get => _power; set => _power = value; }
+    public int Speed { get => _moveSpeed; set => _moveSpeed = value; }
+    public float DushAttack { get => _dushAttackSpeed; set => _dushAttackSpeed = value; }
     public PlayerState State { get => _state; set => _state = value; }
 
     private void Awake()
     {
         PlayerData maxStatus = Resources.Load<PlayerData>("PlayerData");
         _hp = maxStatus.MaxHp;
-        _power = maxStatus.MaxPower;
-        _moveSpeed = maxStatus.MaxSpeed;
         _jumpPower = maxStatus.JumpPower;
-        _dushAttackSpeed = maxStatus.EnemyDushPower;
         _wallJumpPower = maxStatus.WallJumpPower;
     }
     void Start()
@@ -55,9 +54,6 @@ public class Player : InstanceSystem<Player>
         _particle = GetComponent<ParticleSystem>();
         _rb = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
-        this.ObserveEveryValueChanged(x => x._power.Value).Subscribe(newValue => _power.Value = newValue);
-        this.ObserveEveryValueChanged(x => x._moveSpeed.Value).Subscribe(newValue => _moveSpeed.Value = newValue);
-        this.ObserveEveryValueChanged(x => x._dushAttackSpeed.Value).Subscribe(newValue => _dushAttackSpeed.Value = newValue);
     }
     private void FixedUpdate()
     {
@@ -69,11 +65,11 @@ public class Player : InstanceSystem<Player>
             //ダッシュと通常のスピードを変える
             if (Input.GetButton("Fire3"))
             {
-                _rb.velocity = new Vector2(_x * (_moveSpeed.Value + 5), _rb.velocity.y);
+                _rb.velocity = new Vector2(_x * (_moveSpeed + 5), _rb.velocity.y);
             }
             else
             {
-                _rb.velocity = new Vector2(_x * _moveSpeed.Value, _rb.velocity.y);
+                _rb.velocity = new Vector2(_x * _moveSpeed, _rb.velocity.y);
             }
             FlipX(_x);
             if(_isJump)
@@ -87,6 +83,10 @@ public class Player : InstanceSystem<Player>
     }
     void Update()
     {
+        _power = GameManager.Instance.Power.Value;
+        _moveSpeed =  GameManager.Instance.Speed.Value;
+        _dushAttackSpeed = GameManager.Instance.DushAttack.Value;
+        Debug.Log($"Player  Power = {_power}, Speed = {_moveSpeed}, DushAttack{_dushAttackSpeed}");
         if(_state == PlayerState.WallJump)
         {
             _rb.mass = 2.0f;
@@ -117,6 +117,7 @@ public class Player : InstanceSystem<Player>
         //右の壁に当たったら
         if (hitWallRight)
         {
+            GetComponent<CapsuleCollider2D>().isTrigger = false;
             Debug.Log(_state);
             //壁に当たった状態でジャンプしたら左上に飛ぶ
             if (Input.GetButtonDown("Jump"))
@@ -130,6 +131,7 @@ public class Player : InstanceSystem<Player>
         //左の壁に当たったら
         if (hitWallLeft)
         {
+            GetComponent<CapsuleCollider2D>().isTrigger = false;
             Debug.Log(_state);
             //壁に当たった状態でジャンプしたら右上に飛ぶ
             if (Input.GetButtonDown("Jump"))
@@ -150,7 +152,7 @@ public class Player : InstanceSystem<Player>
             _state = PlayerState.DushAttack;
             _particle.Play();
             Vector3 dir = (_enemyPosition - transform.position).normalized;
-            _rb.AddForce(dir * _dushAttackSpeed.Value, ForceMode2D.Impulse);
+            _rb.AddForce(dir * _dushAttackSpeed, ForceMode2D.Impulse);
             GetComponent<CapsuleCollider2D>().isTrigger = true;
         }
         if (Input.GetButtonDown("Fire1"))
