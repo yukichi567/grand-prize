@@ -9,7 +9,7 @@ public class SkilPointText : MonoBehaviour
     
     public void SetSkilPointText(int point)
     {
-        _skilPoint.text = $"スキルポイント:{point}";
+        _skilPoint.text = $"SkillPoint:{point}";
     }
 
 }
